@@ -1,4 +1,6 @@
 import 'package:codexa_pass/app/common/widget/title_bar.dart';
+import 'package:codexa_pass/app/global.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 import 'router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +12,7 @@ import 'package:universal_platform/universal_platform.dart';
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: '/',
-    observers: [GoTransition.observer],
+    observers: [GoTransition.observer, TalkerRouteObserver(talker)],
     redirect: (context, state) async {
       final prefs = await SharedPreferences.getInstance();
       final isFirstRun = prefs.getBool('is_first_run') ?? true;

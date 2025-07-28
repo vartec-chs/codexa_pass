@@ -18,7 +18,7 @@ class TitleBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(themeProvider);
+    // final currentTheme = ref.watch(themeProvider);
 
     return DragToMoveArea(
       child: Container(

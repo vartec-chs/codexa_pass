@@ -1,5 +1,6 @@
+import 'package:codexa_pass/app/global.dart';
+
 import 'config/constants.dart';
-import 'logging/logger.dart';
 
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
@@ -29,6 +30,6 @@ class WindowManager {
 class AppWindowListener with WindowListener {
   @override
   void onWindowEvent(String eventName) {
-    logInfo('Window event: $eventName', tag: "window");
+    talker.info('Window event: $eventName');
   }
 }

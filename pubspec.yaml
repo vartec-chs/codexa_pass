@@ -62,6 +62,10 @@ dependencies:
   device_info_plus: ^11.5.0
   uuid: ^4.5.1
 
+  talker: ^4.9.3
+  talker_flutter: ^4.9.3
+  talker_riverpod_logger: ^4.9.3
+
   universal_platform: ^1.1.0
 
 
