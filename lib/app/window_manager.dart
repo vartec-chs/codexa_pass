@@ -23,6 +23,7 @@ class WindowManager {
       });
 
       windowManager.addListener(AppWindowListener());
+    
     }
   }
 }
@@ -30,6 +31,8 @@ class WindowManager {
 class AppWindowListener with WindowListener {
   @override
   void onWindowEvent(String eventName) {
-    talker.info('Window event: $eventName');
+    if (eventName != 'moved') {
+      talker.info('Window $eventName');
+    }
   }
 }

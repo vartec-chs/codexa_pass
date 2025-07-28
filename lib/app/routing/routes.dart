@@ -1,5 +1,6 @@
 import 'package:codexa_pass/app/common/widget/title_bar.dart';
 import 'package:codexa_pass/app/global.dart';
+import 'package:codexa_pass/app/routing/routes_path.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 import 'router.dart';
 import 'package:flutter/material.dart';
@@ -11,21 +12,21 @@ import 'package:universal_platform/universal_platform.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: AppRoutes.logs,
     observers: [GoTransition.observer, TalkerRouteObserver(talker)],
     redirect: (context, state) async {
-      final prefs = await SharedPreferences.getInstance();
-      final isFirstRun = prefs.getBool('is_first_run') ?? true;
+      // final prefs = await SharedPreferences.getInstance();
+      // final isFirstRun = prefs.getBool('is_first_run') ?? true;
 
-      // Если это первый запуск и пользователь не на setup экране
-      if (isFirstRun && state.fullPath != '/setup') {
-        return '/setup';
-      }
+      // // Если это первый запуск и пользователь не на setup экране
+      // if (isFirstRun && state.fullPath != '/setup') {
+      //   return '/setup';
+      // }
 
-      // Если настройка завершена и пользователь на setup экране
-      if (!isFirstRun && state.fullPath == '/setup') {
-        return '/';
-      }
+      // // Если настройка завершена и пользователь на setup экране
+      // if (!isFirstRun && state.fullPath == '/setup') {
+      //   return '/';
+      // }
 
       return null;
     },
@@ -44,5 +45,31 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             ),
           ]
         : routes,
+
+    errorBuilder: (context, state) => Scaffold(
+      appBar: AppBar(
+        title: Text('Error'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.arrow_left),
+            onPressed: () {
+              context.pop();
+            },
+          ),
+        ],
+      ),
+      body: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error, color: Colors.red),
+            SizedBox(width: 8),
+            Text('Oops! Something went wrong.'),
+            SizedBox(width: 8),
+            Text(state.error.toString()),
+          ],
+        ),
+      ),
+    ),
   );
 });

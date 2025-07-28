@@ -145,5 +145,4 @@ final List<Object> darkThemeComponents = [
   iconButtonTheme,
   textInputDark,
   chipTheme,
-  
 ];
