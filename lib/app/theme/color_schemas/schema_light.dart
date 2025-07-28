@@ -1,0 +1,31 @@
+import '../colors/colors_light.dart';
+import 'package:flutter/material.dart';
+
+const ColorScheme lightColorScheme = ColorScheme(
+  brightness: Brightness.light,
+  primary: ColorsLight.primary,
+  onPrimary: ColorsLight.onPrimary,
+  primaryContainer: ColorsLight.primaryContainer,
+  onPrimaryContainer: ColorsLight.onPrimaryContainer,
+  secondary: ColorsLight.secondary,
+  onSecondary: ColorsLight.onSecondary,
+  secondaryContainer: ColorsLight.secondaryContainer,
+  onSecondaryContainer: ColorsLight.onSecondaryContainer,
+  tertiary: ColorsLight.tertiary,
+  onTertiary: ColorsLight.onTertiary,
+  tertiaryContainer: ColorsLight.tertiaryContainer,
+  onTertiaryContainer: ColorsLight.onTertiaryContainer,
+  error: ColorsLight.error,
+  onError: ColorsLight.onError,
+  errorContainer: ColorsLight.errorContainer,
+  onErrorContainer: ColorsLight.onErrorContainer,
+  surface: ColorsLight.surface,
+  onSurface: ColorsLight.onSurface,
+  surfaceContainerHighest: ColorsLight.surfaceVariant,
+  surfaceTint: ColorsLight.surfaceTint,
+  onSurfaceVariant: ColorsLight.onSurfaceVariant,
+  outline: ColorsLight.outline,
+  outlineVariant: ColorsLight.outlineVariant,
+  shadow: ColorsLight.shadow,
+  scrim: ColorsLight.scrim,
+);

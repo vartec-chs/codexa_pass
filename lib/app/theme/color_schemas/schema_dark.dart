@@ -1,0 +1,31 @@
+import '../colors/colors_dark.dart';
+import 'package:flutter/material.dart';
+
+const ColorScheme darkColorScheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: ColorsDark.primary,
+  onPrimary: ColorsDark.onPrimary,
+  primaryContainer: ColorsDark.primaryContainer,
+  onPrimaryContainer: ColorsDark.onPrimaryContainer,
+  secondary: ColorsDark.secondary,
+  onSecondary: ColorsDark.onSecondary,
+  secondaryContainer: ColorsDark.secondaryContainer,
+  onSecondaryContainer: ColorsDark.onSecondaryContainer,
+  tertiary: ColorsDark.tertiary,
+  onTertiary: ColorsDark.onTertiary,
+  tertiaryContainer: ColorsDark.tertiaryContainer,
+  onTertiaryContainer: ColorsDark.onTertiaryContainer,
+  error: ColorsDark.error,
+  onError: ColorsDark.onError,
+  errorContainer: ColorsDark.errorContainer,
+  onErrorContainer: ColorsDark.onErrorContainer,
+  surface: ColorsDark.surface,
+  onSurface: ColorsDark.onSurface,
+  surfaceContainerHighest: ColorsDark.surfaceVariant,
+  surfaceTint: ColorsDark.surfaceTint,
+  onSurfaceVariant: ColorsDark.onSurfaceVariant,
+  outline: ColorsDark.outline,
+  outlineVariant: ColorsDark.outlineVariant,
+  shadow: ColorsDark.shadow,
+  scrim: ColorsDark.scrim,
+);

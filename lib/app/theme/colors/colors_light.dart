@@ -1,0 +1,44 @@
+import 'colors_base.dart';
+import 'package:flutter/material.dart';
+
+class ColorsLight {
+  static const Color white = ColorsBase.white;
+  static const Color black = ColorsBase.black;
+  static const Color primary = ColorsBase.primary;
+  static const Color onPrimary = white;
+  static const Color primaryContainer = Color(0xffdce1ff);
+  static const Color onPrimaryContainer = Color.fromARGB(255, 0, 62, 219);
+  static const Color secondary = ColorsBase.secondary;
+  static const Color onSecondary = white;
+  static const Color secondaryContainer = Color(0xffffdbcb);
+  static const Color onSecondaryContainer = Color(0xff341100);
+  static const Color tertiary = Color(0xffd7ccc8);
+  static const Color onTertiary = white;
+  static const Color tertiaryContainer = Color(0xffffdbcc);
+  static const Color onTertiaryContainer = Color(0xff351000);
+  static const Color error = Color(0xffcf4242);
+  static const Color onError = white;
+  static const Color errorContainer = Color(0xffffdad7);
+  static const Color onErrorContainer = Color(0xff410005);
+  static const Color surface = Color.fromARGB(255, 238, 238, 238);
+  static const Color surfaceTint = Color.fromARGB(255, 238, 238, 238);
+  static const Color onSurface = black;
+  static const Color surfaceVariant = Color(0xfff4f3fa);
+  static const Color onSurfaceVariant = Color(0xff45464f);
+  static const Color outline = Color(0xff767680);
+  static const Color outlineVariant = Color(0xffc6c6d0);
+  static const Color shadow = black;
+  static const Color scrim = black;
+  static const Color inverseSurface = Color(0xff2f3036);
+  static const Color inverseOnSurface = Color(0xfff1f0f7);
+  static const Color inversePrimary = Color(0xffb5c4ff);
+  static const Color disabledColor = Color(0x61000000);
+  static const Color dividerColor = Color(0x1f001f24);
+  static const Color focusColor = Color(0x1f000000);
+  static const Color highlightColor = Color(0x66bcbcbc);
+  static const Color hintColor = Color(0x99000000);
+  static const Color hoverColor = Color(0x0a000000);
+  static const Color splashColor = Color(0x66c8c8c8);
+  static const Color unselectedWidgetColor = Color(0x8a000000);
+  static const Color background = Color(0xFFE2E2E2);
+}
