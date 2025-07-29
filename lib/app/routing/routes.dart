@@ -1,19 +1,21 @@
 import 'package:codexa_pass/app/common/widget/title_bar.dart';
-import 'package:codexa_pass/app/global.dart';
+
+import 'package:codexa_pass/app/logger/route_observer.dart';
 import 'package:codexa_pass/app/routing/routes_path.dart';
-import 'package:talker_flutter/talker_flutter.dart';
+
 import 'router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:go_transitions/go_transitions.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:universal_platform/universal_platform.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoutes.logs,
-    observers: [GoTransition.observer, TalkerRouteObserver(talker)],
+    initialLocation: AppRoutes.home,
+
+    observers: [GoTransition.observer, LoggingRouteObserver()],
     redirect: (context, state) async {
       // final prefs = await SharedPreferences.getInstance();
       // final isFirstRun = prefs.getBool('is_first_run') ?? true;

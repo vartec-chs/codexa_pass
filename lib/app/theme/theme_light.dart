@@ -12,8 +12,8 @@ final ThemeData appLightTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: ColorsLight.background,
   appBarTheme: AppBarTheme(
-    backgroundColor: ColorsLight.primary,
-    foregroundColor: ColorsLight.onPrimary,
+    backgroundColor: ColorsLight.surface,
+    foregroundColor: ColorsLight.black,
   ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(
     bodyLarge: GoogleFonts.rubik(

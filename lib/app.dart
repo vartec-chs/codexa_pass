@@ -1,4 +1,5 @@
 import 'package:codexa_pass/app/config/constants.dart';
+import 'package:codexa_pass/app/global.dart';
 import 'package:codexa_pass/app/routing/routes.dart';
 import 'package:codexa_pass/app/theme/theme.dart';
 import 'package:codexa_pass/app/theme/theme_provider.dart';
@@ -17,6 +18,7 @@ class App extends ConsumerWidget {
       title: AppConstants.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
+      scaffoldMessengerKey: snackbarKey,
 
       debugShowCheckedModeBanner: false,
 

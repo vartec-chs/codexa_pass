@@ -1,4 +1,5 @@
 import 'package:codexa_pass/app/global.dart';
+import 'package:codexa_pass/app/logger/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -61,21 +62,21 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
   /// Устанавливает светлую тему
   Future<void> setLightTheme() async {
     state = ThemeMode.light;
-    talker.info('Theme changed to light');
+    logInfo('Theme changed to light', tag: 'Theme');
     await _saveTheme(ThemeMode.light);
   }
 
   /// Устанавливает темную тему
   Future<void> setDarkTheme() async {
     state = ThemeMode.dark;
-    talker.info('Theme changed to dark');
+    logInfo('Theme changed to dark', tag: 'Theme');
     await _saveTheme(ThemeMode.dark);
   }
 
   /// Устанавливает системную тему
   Future<void> setSystemTheme() async {
     state = ThemeMode.system;
-    talker.info('Theme changed to system');
+    logInfo('Theme changed to system', tag: 'Theme');
     await _saveTheme(ThemeMode.system);
   }
 

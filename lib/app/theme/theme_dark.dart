@@ -13,7 +13,7 @@ final ThemeData appDarkTheme = ThemeData(
   useMaterial3: true,
   scaffoldBackgroundColor: ColorsDark.background,
   appBarTheme: AppBarTheme(
-    backgroundColor: ColorsDark.primary,
+    backgroundColor: ColorsDark.surface,
     foregroundColor: ColorsDark.onPrimary,
   ),
   textTheme: GoogleFonts.rubikTextTheme().copyWith(

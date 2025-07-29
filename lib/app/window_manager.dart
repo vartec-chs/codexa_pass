@@ -1,4 +1,5 @@
-import 'package:codexa_pass/app/global.dart';
+
+import 'package:codexa_pass/app/logger/app_logger.dart';
 
 import 'config/constants.dart';
 
@@ -23,7 +24,6 @@ class WindowManager {
       });
 
       windowManager.addListener(AppWindowListener());
-    
     }
   }
 }
@@ -32,7 +32,7 @@ class AppWindowListener with WindowListener {
   @override
   void onWindowEvent(String eventName) {
     if (eventName != 'moved') {
-      talker.info('Window $eventName');
+      logInfo('Window $eventName', tag: 'WindowManager');
     }
   }
 }

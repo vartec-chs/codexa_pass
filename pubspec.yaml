@@ -36,7 +36,7 @@ dependencies:
   intl: ^0.20.2
 
   window_manager: ^0.5.1
-  permission_handler: ^12.0.1
+  permission_handler: ^11.4.0
 
   google_fonts: ^6.2.1
   riverpod: ^2.6.1
@@ -67,6 +67,11 @@ dependencies:
   talker_riverpod_logger: ^4.9.3
 
   universal_platform: ^1.1.0
+  smooth_page_indicator: ^1.2.1
+
+  flutter_permission_guard: ^0.0.3
+
+  image_picker: ^1.1.2
 
 
 
