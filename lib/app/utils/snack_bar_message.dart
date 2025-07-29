@@ -308,18 +308,27 @@ class SnackBarManager {
           // Кнопка закрытия (если dismissible)
           if (message.isDismissible) ...[
             const SizedBox(width: 8),
-            GestureDetector(
-              onTap: () => hideCurrent(),
-              child: Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+            MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => _instance._hideCurrentAndProcessQueue(),
                   borderRadius: BorderRadius.circular(8),
-                ),
-                child: Icon(
-                  Icons.close,
-                  color: Colors.white.withOpacity(0.8),
-                  size: 18,
+                  hoverColor: Colors.white.withOpacity(0.1),
+                  splashColor: Colors.white.withOpacity(0.2),
+                  child: Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: Colors.white.withOpacity(0.8),
+                      size: 18,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -373,25 +382,30 @@ class SnackBarManager {
 
   /// Построить кнопку действия
   Widget _buildActionButton(SnackBarMessage message, _SnackBarColors colors) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.15),
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: message.onAction,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.15),
           borderRadius: BorderRadius.circular(12),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text(
-              message.actionLabel!,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
+          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
+        ),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: message.onAction,
+            borderRadius: BorderRadius.circular(12),
+            hoverColor: Colors.white.withOpacity(0.1),
+            splashColor: Colors.white.withOpacity(0.2),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                message.actionLabel!,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),
@@ -524,7 +538,17 @@ class SnackBarManager {
 
   /// Скрыть текущий snackbar
   static void hideCurrent() {
+    _instance._hideCurrentAndProcessQueue();
+  }
+
+  /// Скрыть текущий snackbar и обработать очередь
+  void _hideCurrentAndProcessQueue() {
     snackbarKey.currentState?.hideCurrentSnackBar();
+    _isShowing = false;
+    // Небольшая задержка перед показом следующего сообщения
+    Timer(const Duration(milliseconds: 200), () {
+      _processQueue();
+    });
   }
 
   /// Запустить автоматический показ сообщений с интервалом
