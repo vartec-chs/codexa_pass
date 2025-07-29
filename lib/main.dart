@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:codexa_pass/app.dart';
 
 import 'package:codexa_pass/app/logger/app_logger.dart';
 import 'package:codexa_pass/app/logger/models.dart';
 import 'package:codexa_pass/app/logger/riverpod_observer.dart';
+import 'package:codexa_pass/app/utils/snack_bar_message.dart';
 import 'package:codexa_pass/app/window_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,6 +41,14 @@ Future<void> main() async {
           'Flutter error: ${details.exceptionAsString()}',
           stackTrace: details.stack,
         );
+        SnackBarManager.showError(
+          'Произошла ошибка в приложении',
+          subtitle: details.exceptionAsString(),
+          actionLabel: 'Скопировать',
+          onAction: () {
+            Clipboard.setData(ClipboardData(text: details.exceptionAsString()));
+          },
+        );
       };
 
       PlatformDispatcher.instance.onError = (error, stackTrace) {
@@ -45,6 +56,15 @@ Future<void> main() async {
           'Platform error: ${error.toString()}',
           stackTrace: stackTrace,
         );
+        SnackBarManager.showError(
+          'Произошла ошибка в приложении',
+          subtitle: error.toString(),
+          actionLabel: 'Скопировать',
+          onAction: () {
+            Clipboard.setData(ClipboardData(text: error.toString()));
+          },
+        );
+
         return true;
       };
 
@@ -70,36 +90,20 @@ Future<void> main() async {
       );
 
       AppLogger.instance.info('App started');
-
-      // runApp(
-      //   TalkerWrapper(
-      //     talker: talker,
-      //     options: const TalkerWrapperOptions(enableErrorAlerts: true),
-      //     child: ProviderScope(
-      //       observers: [TalkerRiverpodObserver()],
-      //       child: PermissionGuard.multi(
-      //         permissions: [
-      //           Permission.accessMediaLocation,
-      //           Permission.criticalAlerts,
-      //           Permission.storage,
-      //           Permission.systemAlertWindow,
-      //           Permission.manageExternalStorage,
-      //         ],
-      //         deniedWidget: Center(
-      //           child: Text('You need to grant location permission!'),
-      //         ),
-      //         child: const App(),
-      //       ),
-      //     ),
-      //   ),
-      // );
     },
     (error, stackTrace) {
-      // talker.handle(error, stackTrace, 'Main');
       logError(
         'Global error: ${error.toString()}',
         stackTrace: stackTrace,
         tag: 'Main',
+      );
+      SnackBarManager.showError(
+        'Произошла непредвиденная ошибка',
+        subtitle: error.toString(),
+        actionLabel: 'Скопировать',
+        onAction: () {
+          Clipboard.setData(ClipboardData(text: error.toString()));
+        },
       );
     },
   );

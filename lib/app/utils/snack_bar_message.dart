@@ -192,14 +192,8 @@ class SnackBarManager {
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       duration: message.duration,
-      action: message.onAction != null && message.actionLabel != null
-          ? SnackBarAction(
-              label: message.actionLabel!,
-              textColor: Colors.transparent,
-              backgroundColor: Colors.transparent,
-              onPressed: message.onAction!,
-            )
-          : null,
+      // Убираем встроенное действие, так как используем кастомное
+      action: null,
       dismissDirection: message.isDismissible
           ? DismissDirection.horizontal
           : DismissDirection.none,
@@ -212,205 +206,10 @@ class SnackBarManager {
     _SnackBarColors colors,
     _SnackBarTheme theme,
   ) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: theme.gradient,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: colors.borderColor.withOpacity(0.3),
-          width: 1.5,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: theme.shadowColor,
-            blurRadius: 12,
-            offset: const Offset(0, 4),
-            spreadRadius: 0,
-          ),
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          // Иконка с анимацией
-          Container(
-            padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              message.customIcon != null
-                  ? (message.customIcon as Icon).icon
-                  : _getIconForType(message.type),
-              color: Colors.white,
-              size: 22,
-            ),
-          ),
-          const SizedBox(width: 16),
-
-          // Контент сообщения
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Основное сообщение
-                Text(
-                  message.message,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                    height: 1.3,
-                  ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
-
-                // Подзаголовок (если есть)
-                if (message.subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    message.subtitle!,
-                    style: TextStyle(
-                      color: Colors.white.withOpacity(0.85),
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      height: 1.2,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-
-                // Индикатор прогресса (если включен)
-                if (message.showProgress) ...[
-                  const SizedBox(height: 12),
-                  _buildProgressIndicator(message.progress, colors),
-                ],
-              ],
-            ),
-          ),
-
-          // Кнопка действия (если есть)
-          if (message.onAction != null && message.actionLabel != null) ...[
-            const SizedBox(width: 12),
-            _buildActionButton(message, colors),
-          ],
-
-          // Кнопка закрытия (если dismissible)
-          if (message.isDismissible) ...[
-            const SizedBox(width: 8),
-            MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => _instance._hideCurrentAndProcessQueue(),
-                  borderRadius: BorderRadius.circular(8),
-                  hoverColor: Colors.white.withOpacity(0.1),
-                  splashColor: Colors.white.withOpacity(0.2),
-                  child: Container(
-                    padding: const EdgeInsets.all(6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Icon(
-                      Icons.close,
-                      color: Colors.white.withOpacity(0.8),
-                      size: 18,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-
-  /// Построить индикатор прогресса
-  Widget _buildProgressIndicator(double? progress, _SnackBarColors colors) {
-    return Container(
-      height: 4,
-      decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(2),
-      ),
-      child: progress != null
-          ? FractionallySizedBox(
-              alignment: Alignment.centerLeft,
-              widthFactor: (progress / 100).clamp(0.0, 1.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(2),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.white.withOpacity(0.3),
-                      blurRadius: 4,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.white.withOpacity(0.3),
-                    Colors.white.withOpacity(0.8),
-                    Colors.white.withOpacity(0.3),
-                  ],
-                  stops: const [0.0, 0.5, 1.0],
-                ),
-              ),
-            ),
-    );
-  }
-
-  /// Построить кнопку действия
-  Widget _buildActionButton(SnackBarMessage message, _SnackBarColors colors) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.15),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: message.onAction,
-            borderRadius: BorderRadius.circular(12),
-            hoverColor: Colors.white.withOpacity(0.1),
-            splashColor: Colors.white.withOpacity(0.2),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Text(
-                message.actionLabel!,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
+    return _AnimatedSnackBarContent(
+      message: message,
+      colors: colors,
+      theme: theme,
     );
   }
 
@@ -514,18 +313,10 @@ class SnackBarManager {
     }
   }
 
-  /// Получить иконку для типа сообщения
-  IconData _getIconForType(SnackBarType type) {
-    switch (type) {
-      case SnackBarType.info:
-        return Icons.info_outline;
-      case SnackBarType.warning:
-        return Icons.warning_amber_outlined;
-      case SnackBarType.error:
-        return Icons.error_outline;
-      case SnackBarType.success:
-        return Icons.check_circle_outline;
-    }
+  /// Освободить ресурсы
+  static void dispose() {
+    _instance._autoShowTimer?.cancel();
+    _instance._messageQueue.clear();
   }
 
   /// Очистить очередь сообщений
@@ -564,12 +355,6 @@ class SnackBarManager {
     _instance._autoShowTimer?.cancel();
     _instance._autoShowTimer = null;
   }
-
-  /// Освободить ресурсы
-  static void dispose() {
-    _instance._autoShowTimer?.cancel();
-    _instance._messageQueue.clear();
-  }
 }
 
 class _SnackBarColors {
@@ -593,4 +378,466 @@ class _SnackBarTheme {
   final Color shadowColor;
 
   _SnackBarTheme({required this.gradient, required this.shadowColor});
+}
+
+/// Анимированный контент для SnackBar
+class _AnimatedSnackBarContent extends StatefulWidget {
+  final SnackBarMessage message;
+  final _SnackBarColors colors;
+  final _SnackBarTheme theme;
+
+  const _AnimatedSnackBarContent({
+    required this.message,
+    required this.colors,
+    required this.theme,
+  });
+
+  @override
+  State<_AnimatedSnackBarContent> createState() =>
+      _AnimatedSnackBarContentState();
+}
+
+class _AnimatedSnackBarContentState extends State<_AnimatedSnackBarContent>
+    with TickerProviderStateMixin {
+  late AnimationController _slideController;
+  late AnimationController _fadeController;
+  late AnimationController _scaleController;
+  late AnimationController _iconController;
+  late AnimationController _progressController;
+
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _iconAnimation;
+  late Animation<double> _progressAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeAnimations();
+    _startEntryAnimations();
+  }
+
+  void _initializeAnimations() {
+    // Основные анимации
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 400),
+      vsync: this,
+    );
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 350),
+      vsync: this,
+    );
+    _scaleController = AnimationController(
+      duration: const Duration(milliseconds: 450),
+      vsync: this,
+    );
+    _iconController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+    _progressController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+
+    // Кривые анимации
+    final slideInCurve = CurvedAnimation(
+      parent: _slideController,
+      curve: Curves.elasticOut,
+    );
+    final fadeInCurve = CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeOutCubic,
+    );
+    final scaleInCurve = CurvedAnimation(
+      parent: _scaleController,
+      curve: Curves.elasticOut,
+    );
+    final iconCurve = CurvedAnimation(
+      parent: _iconController,
+      curve: Curves.bounceOut,
+    );
+
+    // Анимации
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(slideInCurve);
+
+    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(fadeInCurve);
+
+    _scaleAnimation = Tween<double>(begin: 0.7, end: 1.0).animate(scaleInCurve);
+
+    _iconAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(iconCurve);
+
+    _progressAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _progressController, curve: Curves.easeInOut),
+    );
+  }
+
+  void _startEntryAnimations() {
+    Future.delayed(const Duration(milliseconds: 50), () {
+      if (mounted) {
+        _slideController.forward();
+        _fadeController.forward();
+      }
+    });
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) {
+        _scaleController.forward();
+      }
+    });
+
+    Future.delayed(const Duration(milliseconds: 200), () {
+      if (mounted) {
+        _iconController.forward();
+      }
+    });
+
+    if (widget.message.showProgress) {
+      Future.delayed(const Duration(milliseconds: 400), () {
+        if (mounted) {
+          _progressController.forward();
+        }
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _slideController.dispose();
+    _fadeController.dispose();
+    _scaleController.dispose();
+    _iconController.dispose();
+    _progressController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: _slideAnimation,
+      child: FadeTransition(
+        opacity: _fadeAnimation,
+        child: ScaleTransition(
+          scale: _scaleAnimation,
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              gradient: widget.theme.gradient,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: widget.colors.borderColor.withOpacity(0.3),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: widget.theme.shadowColor,
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                  spreadRadius: 0,
+                ),
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                // Анимированная иконка
+                _buildAnimatedIcon(),
+                const SizedBox(width: 16),
+
+                // Контент сообщения - занимает всё доступное пространство
+                Expanded(child: _buildMessageContent()),
+
+                // Кнопки справа - фиксированная ширина
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Кнопка действия (если есть)
+                    if (widget.message.onAction != null &&
+                        widget.message.actionLabel != null) ...[
+                      const SizedBox(width: 12),
+                      _buildAnimatedActionButton(),
+                    ],
+
+                    // Кнопка закрытия (если dismissible)
+                    if (widget.message.isDismissible) ...[
+                      const SizedBox(width: 8),
+                      _buildAnimatedCloseButton(),
+                    ],
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAnimatedIcon() {
+    return ScaleTransition(
+      scale: _iconAnimation,
+      child: RotationTransition(
+        turns: Tween<double>(begin: 0, end: 0.1).animate(_iconAnimation),
+        child: Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.15),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(
+            widget.message.customIcon != null
+                ? (widget.message.customIcon as Icon).icon
+                : _getIconForType(widget.message.type),
+            color: Colors.white,
+            size: 22,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMessageContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Основное сообщение с анимацией
+        FadeTransition(
+          opacity: _fadeAnimation,
+          child: SlideTransition(
+            position:
+                Tween<Offset>(
+                  begin: const Offset(0.2, 0),
+                  end: Offset.zero,
+                ).animate(
+                  CurvedAnimation(
+                    parent: _fadeController,
+                    curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
+                  ),
+                ),
+            child: Text(
+              widget.message.message,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 15,
+                fontWeight: FontWeight.w600,
+                height: 1.3,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ),
+
+        // Анимированный подзаголовок
+        if (widget.message.subtitle != null) ...[
+          const SizedBox(height: 4),
+          FadeTransition(
+            opacity: _fadeAnimation,
+            child: SlideTransition(
+              position:
+                  Tween<Offset>(
+                    begin: const Offset(0.3, 0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: _fadeController,
+                      curve: const Interval(0.5, 1.0, curve: Curves.easeOut),
+                    ),
+                  ),
+              child: Text(
+                widget.message.subtitle!,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.85),
+                  fontSize: 13,
+                  fontWeight: FontWeight.w400,
+                  height: 1.2,
+                ),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ],
+
+        // Анимированный прогресс-бар
+        if (widget.message.showProgress) ...[
+          const SizedBox(height: 12),
+          FadeTransition(
+            opacity: _progressAnimation,
+            child: ScaleTransition(
+              scale: _progressAnimation,
+              alignment: Alignment.centerLeft,
+              child: _buildProgressIndicator(
+                widget.message.progress,
+                widget.colors,
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildAnimatedActionButton() {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: ScaleTransition(
+        scale: _scaleAnimation,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Container(
+            constraints: const BoxConstraints(
+              minWidth: 60,
+              maxWidth: 120, // Ограничиваем максимальную ширину
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.white.withOpacity(0.3),
+                width: 1,
+              ),
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: widget.message.onAction,
+                borderRadius: BorderRadius.circular(12),
+                hoverColor: Colors.white.withOpacity(0.1),
+                splashColor: Colors.white.withOpacity(0.2),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 14,
+                    vertical: 8,
+                  ),
+                  child: Text(
+                    widget.message.actionLabel!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAnimatedCloseButton() {
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: ScaleTransition(
+        scale: _iconAnimation,
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: () =>
+                  SnackBarManager._instance._hideCurrentAndProcessQueue(),
+              borderRadius: BorderRadius.circular(8),
+              hoverColor: Colors.white.withOpacity(0.1),
+              splashColor: Colors.white.withOpacity(0.2),
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Icon(
+                  Icons.close,
+                  color: Colors.white.withOpacity(0.8),
+                  size: 18,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProgressIndicator(double? progress, _SnackBarColors colors) {
+    return Container(
+      height: 4,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.2),
+        borderRadius: BorderRadius.circular(2),
+      ),
+      child: progress != null
+          ? FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: (progress / 100).clamp(0.0, 1.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(2),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.white.withOpacity(0.3),
+                      blurRadius: 4,
+                      spreadRadius: 0,
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : _buildAnimatedProgressBar(),
+    );
+  }
+
+  Widget _buildAnimatedProgressBar() {
+    return AnimatedBuilder(
+      animation: _progressController,
+      builder: (context, child) {
+        return Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(2),
+            gradient: LinearGradient(
+              colors: [
+                Colors.white.withOpacity(0.3),
+                Colors.white.withOpacity(0.8),
+                Colors.white.withOpacity(0.3),
+              ],
+              stops: [
+                (0.0 + _progressAnimation.value * 0.3) % 1.0,
+                (0.5 + _progressAnimation.value * 0.3) % 1.0,
+                (1.0 + _progressAnimation.value * 0.3) % 1.0,
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  IconData _getIconForType(SnackBarType type) {
+    switch (type) {
+      case SnackBarType.info:
+        return Icons.info_outline;
+      case SnackBarType.warning:
+        return Icons.warning_amber_outlined;
+      case SnackBarType.error:
+        return Icons.error_outline;
+      case SnackBarType.success:
+        return Icons.check_circle_outline;
+    }
+  }
 }

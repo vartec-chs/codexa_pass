@@ -1,4 +1,3 @@
-
 import 'package:codexa_pass/app/logger/app_logger.dart';
 
 import 'config/constants.dart';
@@ -31,7 +30,7 @@ class WindowManager {
 class AppWindowListener with WindowListener {
   @override
   void onWindowEvent(String eventName) {
-    if (eventName != 'moved') {
+    if (eventName != "move" || eventName != "moved") {
       logInfo('Window $eventName', tag: 'WindowManager');
     }
   }
