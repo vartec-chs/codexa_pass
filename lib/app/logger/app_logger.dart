@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:codexa_pass/app/config/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
@@ -119,7 +120,9 @@ class AppLogger {
   }
 
   void debug(String message, {String? tag, Map<String, dynamic>? data}) {
-    _log(LogLevel.debug, message, tag: tag, additionalData: data);
+    if (AppConstants.isDebug) {
+      _log(LogLevel.debug, message, tag: tag, additionalData: data);
+    }
   }
 
   void info(String message, {String? tag, Map<String, dynamic>? data}) {

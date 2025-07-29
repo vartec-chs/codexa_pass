@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'snack_bar_message.dart';
+import '../app/utils/snack_bar_message.dart';
 
 /// Демонстрация анимированных SnackBar уведомлений
 class AnimatedSnackBarDemoPage extends StatefulWidget {

@@ -1,16 +1,15 @@
 import 'package:codexa_pass/app/common/widget/center_container.dart';
 import 'package:codexa_pass/app/routing/routes_path.dart';
-import 'package:codexa_pass/app/utils/animated_snack_bar_demo.dart';
-import 'package:talker_flutter/talker_flutter.dart';
-// import 'package:codexa_pass/features/setup/presentation/screen/setup.dart';
+import 'package:codexa_pass/demo/priority_snackbar_demo.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:codexa_pass/app/global.dart';
+
 
 final List<RouteBase> routes = [
   GoRoute(
     path: AppRoutes.home,
-    builder: (context, state) => const AnimatedSnackBarDemoPage(),
+    builder: (context, state) => const PrioritySnackBarDemo(),
   ),
   GoRoute(
     path: AppRoutes.setup,

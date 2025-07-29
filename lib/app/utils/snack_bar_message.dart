@@ -149,7 +149,24 @@ class SnackBarManager {
 
   /// Добавить сообщение в очередь
   void _addMessage(SnackBarMessage message) {
-    _messageQueue.add(message);
+    // Если это ошибка и есть отображаемое сообщение - скрываем его и показываем ошибку
+    if (message.type == SnackBarType.error && _isShowing) {
+      logDebug('Priority error message: interrupting current snackbar');
+      // Добавляем ошибку в начало очереди для приоритетного показа
+      _messageQueue.addFirst(message);
+      // Принудительно скрываем текущее сообщение
+      _hideCurrentAndShowNext();
+      return;
+    }
+
+    // Для ошибок добавляем в начало очереди, для остальных - в конец
+    if (message.type == SnackBarType.error) {
+      logDebug('Adding priority error message to front of queue');
+      _messageQueue.addFirst(message);
+    } else {
+      _messageQueue.add(message);
+    }
+
     _processQueue();
   }
 
@@ -157,7 +174,40 @@ class SnackBarManager {
   void _processQueue() {
     if (_isShowing || _messageQueue.isEmpty) return;
 
+    // Сортируем очередь по приоритету (ошибки первыми)
+    _sortQueueByPriority();
     _showNextMessage();
+  }
+
+  /// Сортировать очередь по приоритету типов сообщений
+  void _sortQueueByPriority() {
+    if (_messageQueue.length <= 1) return;
+
+    final messages = _messageQueue.toList();
+    _messageQueue.clear();
+
+    // Сортируем по приоритету: error > warning > info > success
+    messages.sort(
+      (a, b) => _getTypePriority(a.type).compareTo(_getTypePriority(b.type)),
+    );
+
+    for (final message in messages) {
+      _messageQueue.add(message);
+    }
+  }
+
+  /// Получить приоритет типа сообщения (меньше = выше приоритет)
+  int _getTypePriority(SnackBarType type) {
+    switch (type) {
+      case SnackBarType.error:
+        return 0; // Наивысший приоритет
+      case SnackBarType.warning:
+        return 1;
+      case SnackBarType.info:
+        return 2;
+      case SnackBarType.success:
+        return 3; // Наименьший приоритет
+    }
   }
 
   /// Показать следующее сообщение из очереди
@@ -188,7 +238,7 @@ class SnackBarManager {
       backgroundColor: Colors.transparent,
       elevation: 0,
       behavior: SnackBarBehavior.floating,
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       duration: message.duration,
@@ -338,6 +388,16 @@ class SnackBarManager {
     _isShowing = false;
     // Небольшая задержка перед показом следующего сообщения
     Timer(const Duration(milliseconds: 200), () {
+      _processQueue();
+    });
+  }
+
+  /// Скрыть текущий snackbar и немедленно показать следующий (для приоритетных сообщений)
+  void _hideCurrentAndShowNext() {
+    snackbarKey.currentState?.hideCurrentSnackBar();
+    _isShowing = false;
+    // Минимальная задержка для приоритетных сообщений (ошибок)
+    Timer(const Duration(milliseconds: 50), () {
       _processQueue();
     });
   }
@@ -524,7 +584,7 @@ class _AnimatedSnackBarContentState extends State<_AnimatedSnackBarContent>
         child: ScaleTransition(
           scale: _scaleAnimation,
           child: Container(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
               gradient: widget.theme.gradient,
               borderRadius: BorderRadius.circular(16),
