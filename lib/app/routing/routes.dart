@@ -13,7 +13,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoutes.home,
+    initialLocation: AppRoutes.setup,
 
     observers: [GoTransition.observer, LoggingRouteObserver()],
     redirect: (context, state) async {
