@@ -381,7 +381,7 @@ class _AnimatedSnackBarDemoPageState extends State<AnimatedSnackBarDemoPage> {
       } else {
         SnackBarManager.showInfo(
           'Загрузка файлов...',
-          subtitle: 'Обработано ${_demoCounter}% файлов',
+          subtitle: 'Обработано $_demoCounter% файлов',
           showProgress: true,
           progress: _demoCounter.toDouble(),
         );

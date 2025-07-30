@@ -1,4 +1,3 @@
-import 'package:codexa_pass/app/global.dart';
 import 'package:codexa_pass/app/logger/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

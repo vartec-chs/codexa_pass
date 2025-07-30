@@ -103,7 +103,7 @@ class FileManager {
   Future<void> _cleanupDirectory(Directory directory) async {
     final files = directory
         .listSync()
-        .where((entity) => entity is File)
+        .whereType<File>()
         .cast<File>()
         .toList();
 

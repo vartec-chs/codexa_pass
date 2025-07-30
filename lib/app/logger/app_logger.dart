@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:codexa_pass/app/config/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 
 import 'file_manager.dart';
