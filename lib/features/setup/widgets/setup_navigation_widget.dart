@@ -104,14 +104,14 @@ class SetupNavigationWidget extends ConsumerWidget {
             ? () {
                 if (isLastStep) {
                   logInfo('Setup completion initiated');
-                  controller.nextStep();
+                  controller.nextStep(context);
                   // Задержка для анимации завершения
                   Future.delayed(const Duration(milliseconds: 500), () {
                     onComplete?.call();
                   });
                 } else {
                   logDebug('Next button pressed');
-                  controller.nextStep();
+                  controller.nextStep(context);
                 }
               }
             : null,

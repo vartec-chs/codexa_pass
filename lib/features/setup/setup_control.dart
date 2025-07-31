@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/logger/app_logger.dart';
 import '../../app/utils/snack_bar_message.dart';
 import '../../app/theme/theme_provider.dart';
+import '../../app/routing/routes_path.dart';
 
 /// Состояния экрана настройки
 enum SetupStep {
@@ -86,7 +89,7 @@ class SetupController extends StateNotifier<SetupState> {
   }
 
   /// Перейти к следующему шагу
-  void nextStep() {
+  Future<void> nextStep([BuildContext? context]) async {
     if (!state.canGoNext) {
       logWarning('Cannot proceed to next step from ${state.currentStep}');
       SnackBarManager.showWarning('Пожалуйста, завершите текущий шаг');
@@ -94,7 +97,11 @@ class SetupController extends StateNotifier<SetupState> {
     }
 
     if (state.isLastStep) {
-      _completeSetup();
+      if (context != null) {
+        await completeSetupAndNavigate(context);
+      } else {
+        await _completeSetup();
+      }
       return;
     }
 
@@ -150,19 +157,51 @@ class SetupController extends StateNotifier<SetupState> {
   }
 
   /// Завершить настройку
-  void _completeSetup() {
+  Future<void> _completeSetup() async {
     logInfo('Setup completed with theme: ${state.selectedTheme}');
     state = state.copyWith(isCompleted: true);
     // SnackBarManager.showSuccess('Настройка завершена!');
 
     // Здесь можно сохранить настройки или выполнить другие действия
-    _saveSettings();
+    await _saveSettings();
   }
 
-  /// Сохранить настройки (заглушка)
-  void _saveSettings() {
-    // TODO: Реализовать сохранение настроек
-    logDebug('Saving settings: theme=${state.selectedTheme}');
+  /// Завершить настройку и перейти на домашний экран
+  Future<void> completeSetupAndNavigate(BuildContext context) async {
+    await _completeSetup();
+
+    // Переходим на домашний экран
+    logInfo('Navigating to home screen after setup completion');
+    // ignore: use_build_context_synchronously
+    context.go(AppRoutes.home);
+  }
+
+  /// Сохранить настройки
+  Future<void> _saveSettings() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+
+      // Сохраняем, что настройка была завершена
+      await prefs.setBool('is_setup_completed', true);
+      await prefs.setBool('is_first_run', false);
+
+      // Сохраняем выбранную тему
+      final themeString = state.selectedTheme.toString().split('.').last;
+      await prefs.setString('selected_theme', themeString);
+
+      // Сохраняем дату завершения настройки
+      await prefs.setString(
+        'setup_completed_date',
+        DateTime.now().toIso8601String(),
+      );
+
+      logDebug(
+        'Settings saved: theme=${state.selectedTheme}, setup_completed=true',
+      );
+    } catch (e) {
+      logError('Failed to save settings: $e');
+      SnackBarManager.showError('Ошибка сохранения настроек');
+    }
   }
 
   /// Получить следующий шаг
@@ -190,6 +229,29 @@ class SetupController extends StateNotifier<SetupState> {
     logInfo('Setup state reset');
     state = const SetupState();
   }
+
+  /// Проверить, была ли настройка завершена ранее
+  static Future<bool> isSetupCompleted() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool('is_setup_completed') ?? false;
+    } catch (e) {
+      logError('Failed to check setup completion status: $e');
+      return false;
+    }
+  }
+
+  /// Получить дату завершения настройки
+  static Future<DateTime?> getSetupCompletedDate() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final dateString = prefs.getString('setup_completed_date');
+      return dateString != null ? DateTime.parse(dateString) : null;
+    } catch (e) {
+      logError('Failed to get setup completion date: $e');
+      return null;
+    }
+  }
 }
 
 /// Провайдер для контроллера настройки
@@ -197,3 +259,8 @@ final setupControllerProvider =
     StateNotifierProvider<SetupController, SetupState>(
       (ref) => SetupController(ref),
     );
+
+/// Провайдер для проверки статуса завершения настройки
+final setupCompletionStatusProvider = FutureProvider<bool>((ref) async {
+  return await SetupController.isSetupCompleted();
+});
