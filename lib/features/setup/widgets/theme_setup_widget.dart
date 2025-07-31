@@ -1,3 +1,4 @@
+import 'package:codexa_pass/app/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../app/logger/app_logger.dart';
@@ -11,6 +12,7 @@ class ThemeSetupWidget extends ConsumerWidget {
     logDebug('Building ThemeSetupWidget');
     final setupState = ref.watch(setupControllerProvider);
     final controller = ref.read(setupControllerProvider.notifier);
+    
     final theme = Theme.of(context);
 
     return Column(

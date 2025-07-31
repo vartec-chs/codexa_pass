@@ -24,6 +24,7 @@ class App extends ConsumerWidget {
 
       routerConfig: router,
       themeMode: theme,
+      
     );
   }
 }

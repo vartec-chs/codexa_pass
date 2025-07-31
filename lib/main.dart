@@ -72,19 +72,8 @@ Future<void> main() async {
       runApp(
         ProviderScope(
           observers: [LoggingProviderObserver()],
-          child: PermissionGuard.multi(
-            permissions: [
-              Permission.accessMediaLocation,
-              Permission.criticalAlerts,
-              Permission.storage,
-              Permission.systemAlertWindow,
-              Permission.manageExternalStorage,
-            ],
-            deniedWidget: Center(
-              child: Text('You need to grant location permission!'),
-            ),
-            child: const App(),
-          ),
+
+          child: const App(),
         ),
       );
 

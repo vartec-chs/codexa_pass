@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:universal_platform/universal_platform.dart';
 import '../../../app/logger/app_logger.dart';
 import '../setup_control.dart';
+
+final _buttonHeight = UniversalPlatform.isMobile ? 58.0 : 48.0;
 
 class SetupNavigationWidget extends ConsumerWidget {
   final VoidCallback? onComplete;
@@ -15,7 +18,7 @@ class SetupNavigationWidget extends ConsumerWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: theme.scaffoldBackgroundColor,
         boxShadow: [
@@ -58,7 +61,7 @@ class SetupNavigationWidget extends ConsumerWidget {
       duration: const Duration(milliseconds: 300),
       child: SizedBox(
         width: 120,
-        height: 48,
+        height: _buttonHeight,
         child: OutlinedButton.icon(
           onPressed: canGoBack
               ? () {
@@ -95,7 +98,7 @@ class SetupNavigationWidget extends ConsumerWidget {
 
     return SizedBox(
       width: 140,
-      height: 48,
+      height: _buttonHeight,
       child: ElevatedButton.icon(
         onPressed: canProceed
             ? () {
