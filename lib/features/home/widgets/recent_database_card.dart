@@ -127,7 +127,7 @@ class RecentDatabaseCard extends StatelessWidget {
                     ),
                     tooltip: 'Удалить из недавних',
                     style: IconButton.styleFrom(
-                      backgroundColor: theme.colorScheme.surfaceVariant
+                      backgroundColor: theme.colorScheme.surfaceContainerHighest
                           .withOpacity(0.5),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),

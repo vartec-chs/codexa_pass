@@ -12,8 +12,6 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:flutter_permission_guard/flutter_permission_guard.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import 'package:flutter/foundation.dart';
 

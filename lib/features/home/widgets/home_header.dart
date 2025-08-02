@@ -71,7 +71,7 @@ class HomeHeader extends StatelessWidget {
                 color: theme.colorScheme.onSurface.withOpacity(0.7),
               ),
               style: IconButton.styleFrom(
-                backgroundColor: theme.colorScheme.surfaceVariant.withOpacity(
+                backgroundColor: theme.colorScheme.surfaceContainerHighest.withOpacity(
                   0.5,
                 ),
                 shape: RoundedRectangleBorder(
