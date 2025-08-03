@@ -14,32 +14,31 @@ class HomeScreen extends ConsumerWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            // Фиксированный хедер
-            Container(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              padding: const EdgeInsets.all(16.0),
-              child: const HomeHeader(),
-            ),
-            // Скроллируемый контент
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 0),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        ActionButtonsSection(homeActions: homeActions),
-                        const SizedBox(height: 40),
-                      ]),
-                    ),
-                  ),
-                  RecentDatabasesSection(homeActions: homeActions),
-                  const SliverPadding(padding: EdgeInsets.only(bottom: 40)),
-                ],
+        child: CustomScrollView(
+          slivers: [
+            // Фиксированный хедер в составе CustomScrollView
+            SliverToBoxAdapter(
+              child: Container(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                padding: const EdgeInsets.all(16.0),
+                child: const HomeHeader(),
               ),
             ),
+            // Отступ перед кнопками действий
+            const SliverPadding(padding: EdgeInsets.only(top: 32.0)),
+            // Секция с кнопками действий
+            SliverToBoxAdapter(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: ActionButtonsSection(homeActions: homeActions),
+              ),
+            ),
+            // Отступ после кнопок действий
+            const SliverPadding(padding: EdgeInsets.only(bottom: 40.0)),
+            // Секция с недавними базами данных
+            RecentDatabasesSection(homeActions: homeActions),
+            // Отступ внизу
+            const SliverPadding(padding: EdgeInsets.only(bottom: 40.0)),
           ],
         ),
       ),
