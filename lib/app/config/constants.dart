@@ -11,6 +11,8 @@ class AppConstants {
   static const isDebug = true;
   static const isRelease = false;
 
+  static const int dbSchemaVersion = 1;
+
   // logging
   static const String logPath = 'Codexa/logs';
   static const int maxLogFileSizeMB = 10; // Maximum log file size in MB
