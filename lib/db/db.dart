@@ -8,7 +8,7 @@ part 'db.g.dart';
 
 @DriftDatabase(tables: [StoreMeta])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(QueryExecutor e) : super(e);
+  AppDatabase(super.e);
 
   @override
   int get schemaVersion => AppConstants.dbSchemaVersion;
