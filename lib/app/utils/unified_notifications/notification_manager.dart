@@ -527,21 +527,6 @@ class UnifiedNotificationManager {
               ),
             ),
           ],
-
-          // Кнопка закрытия
-          if (config.showCloseButton) ...[
-            const SizedBox(width: 4),
-            IconButton(
-              onPressed: () => hideSnackBar(),
-              icon: Icon(
-                Icons.close,
-                color: colors.iconColor.withOpacity(0.8),
-                size: 18,
-              ),
-              padding: const EdgeInsets.all(4),
-              constraints: const BoxConstraints(),
-            ),
-          ],
         ],
       ),
     );

@@ -7,10 +7,10 @@ class TopSnackBarWidget extends StatefulWidget {
   final VoidCallback onDismiss;
 
   const TopSnackBarWidget({
-    Key? key,
+    super.key,
     required this.config,
     required this.onDismiss,
-  }) : super(key: key);
+  });
 
   @override
   State<TopSnackBarWidget> createState() => _TopSnackBarWidgetState();

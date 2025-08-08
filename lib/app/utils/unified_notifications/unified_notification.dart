@@ -236,7 +236,7 @@ class UnifiedNotification {
 
 /// Пример использования унифицированной системы уведомлений
 class UnifiedNotificationExample extends StatelessWidget {
-  const UnifiedNotificationExample({Key? key}) : super(key: key);
+  const UnifiedNotificationExample({super.key});
 
   @override
   Widget build(BuildContext context) {

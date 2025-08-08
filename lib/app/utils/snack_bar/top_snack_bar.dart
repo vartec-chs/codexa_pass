@@ -132,7 +132,7 @@ class TopSnackBar {
 
 /// Пример использования Top Snack Bar
 class TopSnackBarExample extends StatelessWidget {
-  const TopSnackBarExample({Key? key}) : super(key: key);
+  const TopSnackBarExample({super.key});
 
   @override
   Widget build(BuildContext context) {

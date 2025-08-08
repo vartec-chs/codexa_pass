@@ -4,7 +4,7 @@ import '../notification_extensions.dart';
 
 /// Демонстрационное приложение для унифицированной системы уведомлений
 class UnifiedNotificationDemo extends StatefulWidget {
-  const UnifiedNotificationDemo({Key? key}) : super(key: key);
+  const UnifiedNotificationDemo({super.key});
 
   @override
   State<UnifiedNotificationDemo> createState() =>

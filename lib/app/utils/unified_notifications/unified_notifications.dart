@@ -34,7 +34,7 @@
 /// );
 /// ```
 
-library unified_notifications;
+library;
 
 // Основные компоненты
 export 'notification_config.dart';

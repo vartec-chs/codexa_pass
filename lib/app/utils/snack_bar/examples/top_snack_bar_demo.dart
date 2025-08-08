@@ -3,7 +3,7 @@ import '../top_snack_bar.dart';
 
 /// Демо-страница для Top Snack Bar
 class TopSnackBarDemo extends StatefulWidget {
-  const TopSnackBarDemo({Key? key}) : super(key: key);
+  const TopSnackBarDemo({super.key});
 
   @override
   State<TopSnackBarDemo> createState() => _TopSnackBarDemoState();

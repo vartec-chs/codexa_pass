@@ -2,7 +2,6 @@ import 'package:codexa_pass/app/config/constants.dart';
 import 'package:drift/drift.dart';
 
 import 'models/db_meta.dart';
-import 'dto/store_dto.dart';
 
 part 'db.g.dart';
 
