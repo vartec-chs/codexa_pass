@@ -20,6 +20,7 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
   bool _isConfirmPasswordVisible = false;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
+  int _lastResetKey = -1; // Отслеживаем последний resetKey
 
   @override
   void initState() {
@@ -53,6 +54,19 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
     final state = ref.watch(createStoreControllerProvider);
     final controller = ref.read(createStoreControllerProvider.notifier);
 
+    // Безопасно сбрасываем состояние видимости паролей при сбросе формы
+    if (_lastResetKey != -1 && _lastResetKey != state.resetKey) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          setState(() {
+            _isPasswordVisible = false;
+            _isConfirmPasswordVisible = false;
+          });
+        }
+      });
+    }
+    _lastResetKey = state.resetKey;
+
     return AnimatedAppearance(
       delay: const Duration(milliseconds: 600),
       child: Column(
@@ -69,6 +83,7 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
 
           // Поле мастер-пароля
           _buildPasswordField(
+            state: state,
             label: 'Мастер-пароль *',
             hint: 'Введите мастер-пароль',
             value: state.masterPassword,
@@ -82,6 +97,7 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
 
           // Поле подтверждения пароля
           _buildPasswordField(
+            state: state,
             label: 'Подтвердите пароль *',
             hint: 'Повторите мастер-пароль',
             value: state.confirmPassword,
@@ -117,6 +133,7 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
   }
 
   Widget _buildPasswordField({
+    required dynamic state, // Добавляем state для доступа к resetKey
     required String label,
     required String hint,
     required String value,
@@ -135,6 +152,9 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
         AnimatedColorContainer(
           color: Colors.transparent,
           child: TextFormField(
+            key: ValueKey(
+              '${label}_${state.resetKey}',
+            ), // Используем resetKey для принудительного обновления
             initialValue: value,
             onChanged: onChanged,
             obscureText: !isVisible,

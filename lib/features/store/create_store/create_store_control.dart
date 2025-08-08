@@ -7,7 +7,9 @@ import '../../../app/logger/app_logger.dart';
 import 'models/create_store_models.dart';
 
 final createStoreControllerProvider =
-    StateNotifierProvider<CreateStoreController, CreateStoreState>((ref) {
+    StateNotifierProvider.autoDispose<CreateStoreController, CreateStoreState>((
+      ref,
+    ) {
       return CreateStoreController();
     });
 
@@ -151,6 +153,10 @@ class CreateStoreController extends StateNotifier<CreateStoreState> {
   }
 
   void reset() {
-    state = const CreateStoreState(useDefaultPath: true);
+    state = CreateStoreState(
+      useDefaultPath: true,
+      resetKey:
+          state.resetKey + 1, // Инкрементируем ключ для визуального сброса
+    );
   }
 }

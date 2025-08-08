@@ -31,6 +31,7 @@ class StoreInfoWidget extends ConsumerWidget {
           // Поле имени
           _buildInputField(
             context: context,
+            state: state,
             label: 'Название хранилища *',
             hint: 'Введите название хранилища',
             value: state.name,
@@ -43,6 +44,7 @@ class StoreInfoWidget extends ConsumerWidget {
           // Поле описания
           _buildInputField(
             context: context,
+            state: state,
             label: 'Описание (опционально)',
             hint: 'Добавьте описание хранилища',
             value: state.description,
@@ -57,6 +59,7 @@ class StoreInfoWidget extends ConsumerWidget {
 
   Widget _buildInputField({
     required BuildContext context,
+    required dynamic state, // Добавляем state для доступа к resetKey
     required String label,
     required String hint,
     required String value,
@@ -73,6 +76,9 @@ class StoreInfoWidget extends ConsumerWidget {
         AnimatedColorContainer(
           color: Colors.transparent,
           child: TextFormField(
+            key: ValueKey(
+              '${label}_${state.resetKey}',
+            ), // Используем resetKey для принудительного обновления
             initialValue: value,
             onChanged: onChanged,
             maxLines: maxLines,

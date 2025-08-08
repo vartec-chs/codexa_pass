@@ -9,6 +9,7 @@ class CreateStoreState {
   final bool isLoading;
   final String? error;
   final bool isSuccess;
+  final int resetKey; // Добавляем ключ для сброса формы
 
   const CreateStoreState({
     this.name = '',
@@ -21,6 +22,7 @@ class CreateStoreState {
     this.isLoading = false,
     this.error,
     this.isSuccess = false,
+    this.resetKey = 0,
   });
 
   CreateStoreState copyWith({
@@ -34,6 +36,7 @@ class CreateStoreState {
     bool? isLoading,
     String? error,
     bool? isSuccess,
+    int? resetKey,
   }) {
     return CreateStoreState(
       name: name ?? this.name,
@@ -46,6 +49,7 @@ class CreateStoreState {
       isLoading: isLoading ?? this.isLoading,
       error: error ?? this.error,
       isSuccess: isSuccess ?? this.isSuccess,
+      resetKey: resetKey ?? this.resetKey,
     );
   }
 }

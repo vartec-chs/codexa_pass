@@ -24,7 +24,9 @@ class _CreateStoreState extends ConsumerState<CreateStore> {
     super.initState();
     // Сбрасываем состояние при входе на экран
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(createStoreControllerProvider.notifier).reset();
+      if (mounted) {
+        ref.read(createStoreControllerProvider.notifier).reset();
+      }
     });
   }
 
