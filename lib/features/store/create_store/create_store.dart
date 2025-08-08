@@ -6,8 +6,8 @@ import '../../../app/common/widget/screen_wrapper.dart';
 import '../../../app/utils/snack_bar_message.dart';
 import 'create_store_control.dart';
 import 'models/create_store_models.dart';
-import 'widgets/directory_selection_widget.dart';
-import 'widgets/store_info_widget.dart';
+import 'widgets/directory_selection_widget_new.dart';
+import 'widgets/store_info_widget_new.dart';
 import 'widgets/master_password_widget.dart';
 import 'widgets/create_store_action_button.dart';
 

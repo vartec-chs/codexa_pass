@@ -80,22 +80,26 @@ class DirectorySelectionWidget extends ConsumerWidget {
           ? Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2)
           : Colors.transparent,
       duration: AnimationConstants.fast,
-      borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-        context,
-        mobile: 16,
-        tablet: 18,
-        desktop: 20,
-      )),
+      borderRadius: BorderRadius.circular(
+        ResponsiveUtils.responsive(
+          context,
+          mobile: 16,
+          tablet: 18,
+          desktop: 20,
+        ),
+      ),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-            context,
-            mobile: 16,
-            tablet: 18,
-            desktop: 20,
-          )),
+          borderRadius: BorderRadius.circular(
+            ResponsiveUtils.responsive(
+              context,
+              mobile: 16,
+              tablet: 18,
+              desktop: 20,
+            ),
+          ),
           child: AnimatedContainer(
             duration: AnimationConstants.fast,
             padding: ResponsiveUtils.responsive(
@@ -105,12 +109,14 @@ class DirectorySelectionWidget extends ConsumerWidget {
               desktop: const EdgeInsets.all(28),
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-                context,
-                mobile: 16,
-                tablet: 18,
-                desktop: 20,
-              )),
+              borderRadius: BorderRadius.circular(
+                ResponsiveUtils.responsive(
+                  context,
+                  mobile: 16,
+                  tablet: 18,
+                  desktop: 20,
+                ),
+              ),
               border: Border.all(
                 color: isSelected
                     ? Theme.of(context).colorScheme.primary.withOpacity(0.4)
@@ -120,7 +126,9 @@ class DirectorySelectionWidget extends ConsumerWidget {
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withOpacity(0.1),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -139,14 +147,20 @@ class DirectorySelectionWidget extends ConsumerWidget {
                   ),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? Theme.of(context).colorScheme.primary.withOpacity(0.15)
-                        : Theme.of(context).colorScheme.onSurface.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-                      context,
-                      mobile: 12,
-                      tablet: 14,
-                      desktop: 16,
-                    )),
+                        ? Theme.of(
+                            context,
+                          ).colorScheme.primary.withOpacity(0.15)
+                        : Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(
+                      ResponsiveUtils.responsive(
+                        context,
+                        mobile: 12,
+                        tablet: 14,
+                        desktop: 16,
+                      ),
+                    ),
                   ),
                   child: AnimatedSwitcher(
                     duration: AnimationConstants.fast,
@@ -155,7 +169,9 @@ class DirectorySelectionWidget extends ConsumerWidget {
                       key: ValueKey('$icon-$isSelected'),
                       color: isSelected
                           ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+                          : Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withOpacity(0.7),
                       size: ResponsiveUtils.responsive(
                         context,
                         mobile: 24,
@@ -173,7 +189,10 @@ class DirectorySelectionWidget extends ConsumerWidget {
                       Text(
                         title,
                         style: GoogleFonts.inter(
-                          fontSize: ResponsiveUtils.adaptiveFontSize(context, 16),
+                          fontSize: ResponsiveUtils.adaptiveFontSize(
+                            context,
+                            16,
+                          ),
                           fontWeight: FontWeight.w600,
                           color: Theme.of(context).colorScheme.onSurface,
                         ),
@@ -183,7 +202,10 @@ class DirectorySelectionWidget extends ConsumerWidget {
                         subtitle,
                         style: ThemeUtils.getSubtitleStyle(
                           context,
-                          fontSize: ResponsiveUtils.adaptiveFontSize(context, 14),
+                          fontSize: ResponsiveUtils.adaptiveFontSize(
+                            context,
+                            14,
+                          ),
                         ),
                       ),
                     ],
@@ -241,7 +263,9 @@ class DirectorySelectionWidget extends ConsumerWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.primary.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
@@ -256,18 +280,28 @@ class DirectorySelectionWidget extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.useDefaultPath ? 'Стандартная папка' : 'Выбранная папка',
+                        state.useDefaultPath
+                            ? 'Стандартная папка'
+                            : 'Выбранная папка',
                         style: ThemeUtils.getLabelStyle(
                           context,
-                          fontSize: ResponsiveUtils.adaptiveFontSize(context, 12),
+                          fontSize: ResponsiveUtils.adaptiveFontSize(
+                            context,
+                            12,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 2),
                       Text(
                         path,
                         style: GoogleFonts.inter(
-                          fontSize: ResponsiveUtils.adaptiveFontSize(context, 14),
-                          color: Theme.of(context).colorScheme.onSurface.withOpacity(0.8),
+                          fontSize: ResponsiveUtils.adaptiveFontSize(
+                            context,
+                            14,
+                          ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withOpacity(0.8),
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

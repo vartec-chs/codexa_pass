@@ -95,7 +95,7 @@ class CreateStoreController extends StateNotifier<CreateStoreState> {
         state.masterPassword.trim().isNotEmpty &&
         state.confirmPassword.trim().isNotEmpty &&
         state.masterPassword == state.confirmPassword &&
-        state.masterPassword.length >= 8 &&
+        state.masterPassword.length >= 3 &&
         (state.useDefaultPath || state.selectedPath != null);
 
     state = state.copyWith(isFormValid: isValid);

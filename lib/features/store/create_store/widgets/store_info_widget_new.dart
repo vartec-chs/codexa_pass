@@ -67,12 +67,9 @@ class StoreInfoWidget extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          label,
-          style: ThemeUtils.getLabelStyle(context),
-        ),
+        Text(label, style: ThemeUtils.getLabelStyle(context)),
         const SizedBox(height: 8),
-        
+
         AnimatedColorContainer(
           color: Colors.transparent,
           child: TextFormField(
@@ -99,32 +96,40 @@ class StoreInfoWidget extends ConsumerWidget {
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-                  context,
-                  mobile: 12,
-                  tablet: 14,
-                  desktop: 16,
-                )),
-                borderSide: BorderSide(color: ThemeUtils.getBorderColor(context)),
+                borderRadius: BorderRadius.circular(
+                  ResponsiveUtils.responsive(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
+                borderSide: BorderSide(
+                  color: ThemeUtils.getBorderColor(context),
+                ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-                  context,
-                  mobile: 12,
-                  tablet: 14,
-                  desktop: 16,
-                )),
+                borderRadius: BorderRadius.circular(
+                  ResponsiveUtils.responsive(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
                 borderSide: BorderSide(
                   color: ThemeUtils.getBorderColor(context, opacity: 0.3),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(ResponsiveUtils.responsive(
-                  context,
-                  mobile: 12,
-                  tablet: 14,
-                  desktop: 16,
-                )),
+                borderRadius: BorderRadius.circular(
+                  ResponsiveUtils.responsive(
+                    context,
+                    mobile: 12,
+                    tablet: 14,
+                    desktop: 16,
+                  ),
+                ),
                 borderSide: BorderSide(
                   color: Theme.of(context).colorScheme.primary,
                   width: 2,
@@ -134,9 +139,18 @@ class StoreInfoWidget extends ConsumerWidget {
               fillColor: ThemeUtils.getSurfaceColor(context, elevation: 1),
               contentPadding: ResponsiveUtils.responsive(
                 context,
-                mobile: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                tablet: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
-                desktop: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                mobile: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+                tablet: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 18,
+                ),
+                desktop: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 20,
+                ),
               ),
             ),
           ),

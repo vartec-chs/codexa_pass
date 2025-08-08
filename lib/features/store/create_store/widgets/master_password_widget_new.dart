@@ -101,14 +101,8 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
           // Информация о требованиях к паролю
           AnimatedHeightContainer(
             show:
-                (state.masterPassword.isNotEmpty ||
-                    state.confirmPassword.isNotEmpty) &&
-                !(state.masterPassword.length >= 3 &&
-                    state.masterPassword.isNotEmpty &&
-                    state.confirmPassword.isNotEmpty &&
-                    state.masterPassword == state.confirmPassword),
-            duration: AnimationConstants.normal,
-            curve: AnimationConstants.easeInOut,
+                state.masterPassword.isNotEmpty ||
+                state.confirmPassword.isNotEmpty,
             child: _buildPasswordRequirements(state.masterPassword),
           ),
         ],
@@ -252,21 +246,11 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
   }
 
   Widget _buildPasswordRequirements(String password) {
-    final state = ref.watch(createStoreControllerProvider);
-
     final requirements = [
       {
         'text': 'Минимум 3 символа',
         'isValid': password.length >= 3,
         'icon': Icons.format_size,
-      },
-      {
-        'text': 'Пароли совпадают',
-        'isValid':
-            state.masterPassword.isNotEmpty &&
-            state.confirmPassword.isNotEmpty &&
-            state.masterPassword == state.confirmPassword,
-        'icon': Icons.check_circle_outline,
       },
     ];
 
@@ -311,9 +295,6 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
             ),
             const SizedBox(height: 16),
             ...requirements
-                .where(
-                  (req) => !(req['isValid'] as bool),
-                ) // Показываем только невыполненные требования
                 .map(
                   (req) => Padding(
                     padding: const EdgeInsets.only(bottom: 8),
@@ -375,37 +356,6 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
                   ),
                 )
                 .toList(),
-
-            // Сообщение о том, что все требования выполнены
-            if (requirements.every((req) => req['isValid'] as bool) &&
-                state.masterPassword.isNotEmpty)
-              AnimatedContainer(
-                duration: AnimationConstants.normal,
-                curve: AnimationConstants.easeInOut,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.green.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.green.withOpacity(0.3)),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.verified_rounded, color: Colors.green, size: 18),
-                    const SizedBox(width: 12),
-                    Text(
-                      'Все требования выполнены!',
-                      style: GoogleFonts.inter(
-                        fontSize: ResponsiveUtils.adaptiveFontSize(context, 13),
-                        fontWeight: FontWeight.w500,
-                        color: Colors.green.shade700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
           ],
         ),
       ),
