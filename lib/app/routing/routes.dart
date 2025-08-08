@@ -2,6 +2,7 @@ import 'package:codexa_pass/app/common/widget/title_bar.dart';
 
 import 'package:codexa_pass/app/logger/route_observer.dart';
 import 'package:codexa_pass/app/routing/routes_path.dart';
+import 'package:codexa_pass/app/utils/back.dart';
 
 import 'router.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ import 'package:universal_platform/universal_platform.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
-    initialLocation: AppRoutes.setup,
+    initialLocation: AppRoutes.home,
 
     observers: [GoTransition.observer, LoggingRouteObserver()],
     redirect: (context, state) async {
@@ -55,7 +56,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
           IconButton(
             icon: Icon(Icons.arrow_left),
             onPressed: () {
-              context.pop();
+              navigateBack(context);
             },
           ),
         ],

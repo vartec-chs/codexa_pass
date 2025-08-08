@@ -1,6 +1,8 @@
 import 'package:codexa_pass/app/routing/routes_path.dart';
 import 'package:codexa_pass/app/utils/unified_notifications/examples/unified_notification_demo.dart';
 import 'package:codexa_pass/features/home/home.dart';
+import 'package:codexa_pass/features/setup/setup.dart';
+import 'package:codexa_pass/features/store/create_store/create_store.dart';
 
 import 'package:go_router/go_router.dart';
 
@@ -11,7 +13,7 @@ final List<RouteBase> routes = [
   ),
   GoRoute(
     path: AppRoutes.setup,
-    builder: (context, state) => const UnifiedNotificationDemo(),
+    builder: (context, state) => const SetupScreen(),
     // builder: (context, state) => PermissionGuard.multi(
     //   permissions: [
     //     Permission.accessMediaLocation,
@@ -32,4 +34,8 @@ final List<RouteBase> routes = [
   //   path: AppRoutes.logs,
   //   builder: (context, state) => TalkerScreen(talker: talker),
   // ),
+  GoRoute(
+    path: AppRoutes.createStore,
+    builder: (context, state) => const CreateStore(),
+  ),
 ];

@@ -1,4 +1,7 @@
+import 'package:codexa_pass/app/routing/routes_path.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'widgets/recent_databases_section.dart';
 
 // Провайдер для недавних баз данных
@@ -61,18 +64,12 @@ class HomeActions {
 
   HomeActions(this._ref);
 
-  Future<void> createNewDatabase() async {
-    // TODO: Реализовать создание новой базы данных
-    // Показать диалог выбора места сохранения
-    // Создать новую базу данных
-    // Добавить в недавние
+  Future<void> createNewDatabase(BuildContext context) async {
+    context.go(AppRoutes.createStore);
   }
 
-  Future<void> openExistingDatabase() async {
-    // TODO: Реализовать открытие существующей базы данных
-    // Показать файловый диалог
-    // Открыть выбранную базу данных
-    // Добавить в недавние
+  Future<void> openExistingDatabase(BuildContext context) async {
+    context.go(AppRoutes.openStore);
   }
 
   Future<void> openRecentDatabase(RecentDatabase database) async {

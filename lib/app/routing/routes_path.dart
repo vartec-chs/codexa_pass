@@ -3,4 +3,6 @@ class AppRoutes {
   static const String logs = '/logs';
   static const String setup = '/setup';
   static const String home = '/';
+  static const String createStore = '/create-store';
+  static const String openStore = '/open-store';
 }
