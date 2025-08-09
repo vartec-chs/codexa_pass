@@ -6,11 +6,9 @@ import 'models/db_meta.dart';
 part 'db.g.dart';
 
 @DriftDatabase(tables: [StoreMeta])
-class AppDatabase extends _$AppDatabase {
-  AppDatabase(super.e);
+class AppEncryptedDatabase extends _$AppEncryptedDatabase {
+  AppEncryptedDatabase(super.e);
 
   @override
   int get schemaVersion => AppConstants.dbSchemaVersion;
-
-  // Add any additional database-related methods or properties here
 }

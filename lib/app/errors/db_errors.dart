@@ -14,6 +14,18 @@ class DbError with _$DbError {
     Object? cause,
   }) = DbQueryFailed;
 
+  // invalid password
+  const factory DbError.invalidPassword({String? message, Object? cause}) =
+      DbInvalidPassword;
+
+  // corruptedDatabase
+  const factory DbError.corruptedDatabase({String? message, Object? cause}) =
+      DbCorruptedDatabase;
+
+  // accessDenied
+  const factory DbError.accessDenied({String? message, Object? cause}) =
+      DbAccessDenied;
+
   const factory DbError.writeFailed({String? reason, Object? cause}) =
       DbWriteFailed;
 
@@ -28,28 +40,28 @@ class DbError with _$DbError {
 }
 
 // handle database errors
-void handleDatabaseError(DbError error) {
-  error.when(
-    connectionFailed: (message, cause) {
-      // Handle connection failed error
-    },
-    queryFailed: (query, message, cause) {
-      // Handle query failed error
-    },
-    writeFailed: (reason, cause) {
-      // Handle write failed error
-    },
-    readFailed: (reason, cause) {
-      // Handle read failed error
-    },
-    notFound: (entity) {
-      // Handle not found error
-    },
-    conflict: (reason) {
-      // Handle conflict error
-    },
-    unknown: (message, cause) {
-      // Handle unknown error
-    },
-  );
-}
+// void handleDatabaseError(DbError error) {
+//   error.when(
+//     connectionFailed: (message, cause) {
+//       // Handle connection failed error
+//     },
+//     queryFailed: (query, message, cause) {
+//       // Handle query failed error
+//     },
+//     writeFailed: (reason, cause) {
+//       // Handle write failed error
+//     },
+//     readFailed: (reason, cause) {
+//       // Handle read failed error
+//     },
+//     notFound: (entity) {
+//       // Handle not found error
+//     },
+//     conflict: (reason) {
+//       // Handle conflict error
+//     },
+//     unknown: (message, cause) {
+//       // Handle unknown error
+//     },
+//   );
+// }

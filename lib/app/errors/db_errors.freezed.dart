@@ -55,12 +55,15 @@ extension DbErrorPatterns on DbError {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( DbConnectionFailed value)?  connectionFailed,TResult Function( DbQueryFailed value)?  queryFailed,TResult Function( DbWriteFailed value)?  writeFailed,TResult Function( DbReadFailed value)?  readFailed,TResult Function( DbNotFound value)?  notFound,TResult Function( DbConflict value)?  conflict,TResult Function( DbUnknown value)?  unknown,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( DbConnectionFailed value)?  connectionFailed,TResult Function( DbQueryFailed value)?  queryFailed,TResult Function( DbInvalidPassword value)?  invalidPassword,TResult Function( DbCorruptedDatabase value)?  corruptedDatabase,TResult Function( DbAccessDenied value)?  accessDenied,TResult Function( DbWriteFailed value)?  writeFailed,TResult Function( DbReadFailed value)?  readFailed,TResult Function( DbNotFound value)?  notFound,TResult Function( DbConflict value)?  conflict,TResult Function( DbUnknown value)?  unknown,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case DbConnectionFailed() when connectionFailed != null:
 return connectionFailed(_that);case DbQueryFailed() when queryFailed != null:
-return queryFailed(_that);case DbWriteFailed() when writeFailed != null:
+return queryFailed(_that);case DbInvalidPassword() when invalidPassword != null:
+return invalidPassword(_that);case DbCorruptedDatabase() when corruptedDatabase != null:
+return corruptedDatabase(_that);case DbAccessDenied() when accessDenied != null:
+return accessDenied(_that);case DbWriteFailed() when writeFailed != null:
 return writeFailed(_that);case DbReadFailed() when readFailed != null:
 return readFailed(_that);case DbNotFound() when notFound != null:
 return notFound(_that);case DbConflict() when conflict != null:
@@ -83,12 +86,15 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( DbConnectionFailed value)  connectionFailed,required TResult Function( DbQueryFailed value)  queryFailed,required TResult Function( DbWriteFailed value)  writeFailed,required TResult Function( DbReadFailed value)  readFailed,required TResult Function( DbNotFound value)  notFound,required TResult Function( DbConflict value)  conflict,required TResult Function( DbUnknown value)  unknown,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( DbConnectionFailed value)  connectionFailed,required TResult Function( DbQueryFailed value)  queryFailed,required TResult Function( DbInvalidPassword value)  invalidPassword,required TResult Function( DbCorruptedDatabase value)  corruptedDatabase,required TResult Function( DbAccessDenied value)  accessDenied,required TResult Function( DbWriteFailed value)  writeFailed,required TResult Function( DbReadFailed value)  readFailed,required TResult Function( DbNotFound value)  notFound,required TResult Function( DbConflict value)  conflict,required TResult Function( DbUnknown value)  unknown,}){
 final _that = this;
 switch (_that) {
 case DbConnectionFailed():
 return connectionFailed(_that);case DbQueryFailed():
-return queryFailed(_that);case DbWriteFailed():
+return queryFailed(_that);case DbInvalidPassword():
+return invalidPassword(_that);case DbCorruptedDatabase():
+return corruptedDatabase(_that);case DbAccessDenied():
+return accessDenied(_that);case DbWriteFailed():
 return writeFailed(_that);case DbReadFailed():
 return readFailed(_that);case DbNotFound():
 return notFound(_that);case DbConflict():
@@ -110,12 +116,15 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( DbConnectionFailed value)?  connectionFailed,TResult? Function( DbQueryFailed value)?  queryFailed,TResult? Function( DbWriteFailed value)?  writeFailed,TResult? Function( DbReadFailed value)?  readFailed,TResult? Function( DbNotFound value)?  notFound,TResult? Function( DbConflict value)?  conflict,TResult? Function( DbUnknown value)?  unknown,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( DbConnectionFailed value)?  connectionFailed,TResult? Function( DbQueryFailed value)?  queryFailed,TResult? Function( DbInvalidPassword value)?  invalidPassword,TResult? Function( DbCorruptedDatabase value)?  corruptedDatabase,TResult? Function( DbAccessDenied value)?  accessDenied,TResult? Function( DbWriteFailed value)?  writeFailed,TResult? Function( DbReadFailed value)?  readFailed,TResult? Function( DbNotFound value)?  notFound,TResult? Function( DbConflict value)?  conflict,TResult? Function( DbUnknown value)?  unknown,}){
 final _that = this;
 switch (_that) {
 case DbConnectionFailed() when connectionFailed != null:
 return connectionFailed(_that);case DbQueryFailed() when queryFailed != null:
-return queryFailed(_that);case DbWriteFailed() when writeFailed != null:
+return queryFailed(_that);case DbInvalidPassword() when invalidPassword != null:
+return invalidPassword(_that);case DbCorruptedDatabase() when corruptedDatabase != null:
+return corruptedDatabase(_that);case DbAccessDenied() when accessDenied != null:
+return accessDenied(_that);case DbWriteFailed() when writeFailed != null:
 return writeFailed(_that);case DbReadFailed() when readFailed != null:
 return readFailed(_that);case DbNotFound() when notFound != null:
 return notFound(_that);case DbConflict() when conflict != null:
@@ -137,11 +146,14 @@ return unknown(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? message,  Object? cause)?  connectionFailed,TResult Function( String? query,  String? message,  Object? cause)?  queryFailed,TResult Function( String? reason,  Object? cause)?  writeFailed,TResult Function( String? reason,  Object? cause)?  readFailed,TResult Function( String? entity)?  notFound,TResult Function( String? reason)?  conflict,TResult Function( String? message,  Object? cause)?  unknown,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String? message,  Object? cause)?  connectionFailed,TResult Function( String? query,  String? message,  Object? cause)?  queryFailed,TResult Function( String? message,  Object? cause)?  invalidPassword,TResult Function( String? message,  Object? cause)?  corruptedDatabase,TResult Function( String? message,  Object? cause)?  accessDenied,TResult Function( String? reason,  Object? cause)?  writeFailed,TResult Function( String? reason,  Object? cause)?  readFailed,TResult Function( String? entity)?  notFound,TResult Function( String? reason)?  conflict,TResult Function( String? message,  Object? cause)?  unknown,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case DbConnectionFailed() when connectionFailed != null:
 return connectionFailed(_that.message,_that.cause);case DbQueryFailed() when queryFailed != null:
-return queryFailed(_that.query,_that.message,_that.cause);case DbWriteFailed() when writeFailed != null:
+return queryFailed(_that.query,_that.message,_that.cause);case DbInvalidPassword() when invalidPassword != null:
+return invalidPassword(_that.message,_that.cause);case DbCorruptedDatabase() when corruptedDatabase != null:
+return corruptedDatabase(_that.message,_that.cause);case DbAccessDenied() when accessDenied != null:
+return accessDenied(_that.message,_that.cause);case DbWriteFailed() when writeFailed != null:
 return writeFailed(_that.reason,_that.cause);case DbReadFailed() when readFailed != null:
 return readFailed(_that.reason,_that.cause);case DbNotFound() when notFound != null:
 return notFound(_that.entity);case DbConflict() when conflict != null:
@@ -164,11 +176,14 @@ return unknown(_that.message,_that.cause);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? message,  Object? cause)  connectionFailed,required TResult Function( String? query,  String? message,  Object? cause)  queryFailed,required TResult Function( String? reason,  Object? cause)  writeFailed,required TResult Function( String? reason,  Object? cause)  readFailed,required TResult Function( String? entity)  notFound,required TResult Function( String? reason)  conflict,required TResult Function( String? message,  Object? cause)  unknown,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String? message,  Object? cause)  connectionFailed,required TResult Function( String? query,  String? message,  Object? cause)  queryFailed,required TResult Function( String? message,  Object? cause)  invalidPassword,required TResult Function( String? message,  Object? cause)  corruptedDatabase,required TResult Function( String? message,  Object? cause)  accessDenied,required TResult Function( String? reason,  Object? cause)  writeFailed,required TResult Function( String? reason,  Object? cause)  readFailed,required TResult Function( String? entity)  notFound,required TResult Function( String? reason)  conflict,required TResult Function( String? message,  Object? cause)  unknown,}) {final _that = this;
 switch (_that) {
 case DbConnectionFailed():
 return connectionFailed(_that.message,_that.cause);case DbQueryFailed():
-return queryFailed(_that.query,_that.message,_that.cause);case DbWriteFailed():
+return queryFailed(_that.query,_that.message,_that.cause);case DbInvalidPassword():
+return invalidPassword(_that.message,_that.cause);case DbCorruptedDatabase():
+return corruptedDatabase(_that.message,_that.cause);case DbAccessDenied():
+return accessDenied(_that.message,_that.cause);case DbWriteFailed():
 return writeFailed(_that.reason,_that.cause);case DbReadFailed():
 return readFailed(_that.reason,_that.cause);case DbNotFound():
 return notFound(_that.entity);case DbConflict():
@@ -190,11 +205,14 @@ return unknown(_that.message,_that.cause);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? message,  Object? cause)?  connectionFailed,TResult? Function( String? query,  String? message,  Object? cause)?  queryFailed,TResult? Function( String? reason,  Object? cause)?  writeFailed,TResult? Function( String? reason,  Object? cause)?  readFailed,TResult? Function( String? entity)?  notFound,TResult? Function( String? reason)?  conflict,TResult? Function( String? message,  Object? cause)?  unknown,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String? message,  Object? cause)?  connectionFailed,TResult? Function( String? query,  String? message,  Object? cause)?  queryFailed,TResult? Function( String? message,  Object? cause)?  invalidPassword,TResult? Function( String? message,  Object? cause)?  corruptedDatabase,TResult? Function( String? message,  Object? cause)?  accessDenied,TResult? Function( String? reason,  Object? cause)?  writeFailed,TResult? Function( String? reason,  Object? cause)?  readFailed,TResult? Function( String? entity)?  notFound,TResult? Function( String? reason)?  conflict,TResult? Function( String? message,  Object? cause)?  unknown,}) {final _that = this;
 switch (_that) {
 case DbConnectionFailed() when connectionFailed != null:
 return connectionFailed(_that.message,_that.cause);case DbQueryFailed() when queryFailed != null:
-return queryFailed(_that.query,_that.message,_that.cause);case DbWriteFailed() when writeFailed != null:
+return queryFailed(_that.query,_that.message,_that.cause);case DbInvalidPassword() when invalidPassword != null:
+return invalidPassword(_that.message,_that.cause);case DbCorruptedDatabase() when corruptedDatabase != null:
+return corruptedDatabase(_that.message,_that.cause);case DbAccessDenied() when accessDenied != null:
+return accessDenied(_that.message,_that.cause);case DbWriteFailed() when writeFailed != null:
 return writeFailed(_that.reason,_that.cause);case DbReadFailed() when readFailed != null:
 return readFailed(_that.reason,_that.cause);case DbNotFound() when notFound != null:
 return notFound(_that.entity);case DbConflict() when conflict != null:
@@ -336,6 +354,207 @@ class _$DbQueryFailedCopyWithImpl<$Res>
   return _then(DbQueryFailed(
 query: freezed == query ? _self.query : query // ignore: cast_nullable_to_non_nullable
 as String?,message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,cause: freezed == cause ? _self.cause : cause ,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DbInvalidPassword implements DbError {
+  const DbInvalidPassword({this.message, this.cause});
+  
+
+ final  String? message;
+ final  Object? cause;
+
+/// Create a copy of DbError
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DbInvalidPasswordCopyWith<DbInvalidPassword> get copyWith => _$DbInvalidPasswordCopyWithImpl<DbInvalidPassword>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DbInvalidPassword&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.cause, cause));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(cause));
+
+@override
+String toString() {
+  return 'DbError.invalidPassword(message: $message, cause: $cause)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DbInvalidPasswordCopyWith<$Res> implements $DbErrorCopyWith<$Res> {
+  factory $DbInvalidPasswordCopyWith(DbInvalidPassword value, $Res Function(DbInvalidPassword) _then) = _$DbInvalidPasswordCopyWithImpl;
+@useResult
+$Res call({
+ String? message, Object? cause
+});
+
+
+
+
+}
+/// @nodoc
+class _$DbInvalidPasswordCopyWithImpl<$Res>
+    implements $DbInvalidPasswordCopyWith<$Res> {
+  _$DbInvalidPasswordCopyWithImpl(this._self, this._then);
+
+  final DbInvalidPassword _self;
+  final $Res Function(DbInvalidPassword) _then;
+
+/// Create a copy of DbError
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? cause = freezed,}) {
+  return _then(DbInvalidPassword(
+message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,cause: freezed == cause ? _self.cause : cause ,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DbCorruptedDatabase implements DbError {
+  const DbCorruptedDatabase({this.message, this.cause});
+  
+
+ final  String? message;
+ final  Object? cause;
+
+/// Create a copy of DbError
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DbCorruptedDatabaseCopyWith<DbCorruptedDatabase> get copyWith => _$DbCorruptedDatabaseCopyWithImpl<DbCorruptedDatabase>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DbCorruptedDatabase&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.cause, cause));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(cause));
+
+@override
+String toString() {
+  return 'DbError.corruptedDatabase(message: $message, cause: $cause)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DbCorruptedDatabaseCopyWith<$Res> implements $DbErrorCopyWith<$Res> {
+  factory $DbCorruptedDatabaseCopyWith(DbCorruptedDatabase value, $Res Function(DbCorruptedDatabase) _then) = _$DbCorruptedDatabaseCopyWithImpl;
+@useResult
+$Res call({
+ String? message, Object? cause
+});
+
+
+
+
+}
+/// @nodoc
+class _$DbCorruptedDatabaseCopyWithImpl<$Res>
+    implements $DbCorruptedDatabaseCopyWith<$Res> {
+  _$DbCorruptedDatabaseCopyWithImpl(this._self, this._then);
+
+  final DbCorruptedDatabase _self;
+  final $Res Function(DbCorruptedDatabase) _then;
+
+/// Create a copy of DbError
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? cause = freezed,}) {
+  return _then(DbCorruptedDatabase(
+message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String?,cause: freezed == cause ? _self.cause : cause ,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class DbAccessDenied implements DbError {
+  const DbAccessDenied({this.message, this.cause});
+  
+
+ final  String? message;
+ final  Object? cause;
+
+/// Create a copy of DbError
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$DbAccessDeniedCopyWith<DbAccessDenied> get copyWith => _$DbAccessDeniedCopyWithImpl<DbAccessDenied>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DbAccessDenied&&(identical(other.message, message) || other.message == message)&&const DeepCollectionEquality().equals(other.cause, cause));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,message,const DeepCollectionEquality().hash(cause));
+
+@override
+String toString() {
+  return 'DbError.accessDenied(message: $message, cause: $cause)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class $DbAccessDeniedCopyWith<$Res> implements $DbErrorCopyWith<$Res> {
+  factory $DbAccessDeniedCopyWith(DbAccessDenied value, $Res Function(DbAccessDenied) _then) = _$DbAccessDeniedCopyWithImpl;
+@useResult
+$Res call({
+ String? message, Object? cause
+});
+
+
+
+
+}
+/// @nodoc
+class _$DbAccessDeniedCopyWithImpl<$Res>
+    implements $DbAccessDeniedCopyWith<$Res> {
+  _$DbAccessDeniedCopyWithImpl(this._self, this._then);
+
+  final DbAccessDenied _self;
+  final $Res Function(DbAccessDenied) _then;
+
+/// Create a copy of DbError
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = freezed,Object? cause = freezed,}) {
+  return _then(DbAccessDenied(
+message: freezed == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String?,cause: freezed == cause ? _self.cause : cause ,
   ));
 }
