@@ -31,4 +31,10 @@ class AppConstants {
     1,
     0,
   ]; // 1 - numbers, 0 - symbols
+
+  // Logging sensitive data
+  static const bool logSensitiveData =
+      isDebug; // Show sensitive data only in debug mode
+  static const String sensitiveDataMask =
+      '***'; // Mask for sensitive data in logs
 }
