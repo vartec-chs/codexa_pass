@@ -1,10 +1,10 @@
 import 'package:drift/drift.dart';
 
-class StoreMeta extends Table {
+class StoreMetadata extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   TextColumn get description => text().nullable()();
-  TextColumn get version => text().withDefault(const Constant('1.0'))();
+  RealColumn get version => real().withDefault(const Constant(1.0))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
   DateTimeColumn get lastModified =>
       dateTime().withDefault(currentDateAndTime)();

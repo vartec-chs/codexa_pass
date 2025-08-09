@@ -3,12 +3,12 @@
 part of 'db.dart';
 
 // ignore_for_file: type=lint
-class $StoreMetaTable extends StoreMeta
-    with TableInfo<$StoreMetaTable, StoreMetaData> {
+class $StoreMetadataTable extends StoreMetadata
+    with TableInfo<$StoreMetadataTable, StoreMetadataData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $StoreMetaTable(this.attachedDatabase, [this._alias]);
+  $StoreMetadataTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -46,13 +46,13 @@ class $StoreMetaTable extends StoreMeta
     'version',
   );
   @override
-  late final GeneratedColumn<String> version = GeneratedColumn<String>(
+  late final GeneratedColumn<double> version = GeneratedColumn<double>(
     'version',
     aliasedName,
     false,
-    type: DriftSqlType.string,
+    type: DriftSqlType.double,
     requiredDuringInsert: false,
-    defaultValue: const Constant('1.0'),
+    defaultValue: const Constant(1.0),
   );
   static const VerificationMeta _createdAtMeta = const VerificationMeta(
     'createdAt',
@@ -116,10 +116,10 @@ class $StoreMetaTable extends StoreMeta
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'store_meta';
+  static const String $name = 'store_metadata';
   @override
   VerificationContext validateIntegrity(
-    Insertable<StoreMetaData> instance, {
+    Insertable<StoreMetadataData> instance, {
     bool isInserting = false,
   }) {
     final context = VerificationContext();
@@ -188,9 +188,9 @@ class $StoreMetaTable extends StoreMeta
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  StoreMetaData map(Map<String, dynamic> data, {String? tablePrefix}) {
+  StoreMetadataData map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return StoreMetaData(
+    return StoreMetadataData(
       id: attachedDatabase.typeMapping.read(
         DriftSqlType.int,
         data['${effectivePrefix}id'],
@@ -204,7 +204,7 @@ class $StoreMetaTable extends StoreMeta
         data['${effectivePrefix}description'],
       ),
       version: attachedDatabase.typeMapping.read(
-        DriftSqlType.string,
+        DriftSqlType.double,
         data['${effectivePrefix}version'],
       )!,
       createdAt: attachedDatabase.typeMapping.read(
@@ -227,21 +227,22 @@ class $StoreMetaTable extends StoreMeta
   }
 
   @override
-  $StoreMetaTable createAlias(String alias) {
-    return $StoreMetaTable(attachedDatabase, alias);
+  $StoreMetadataTable createAlias(String alias) {
+    return $StoreMetadataTable(attachedDatabase, alias);
   }
 }
 
-class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
+class StoreMetadataData extends DataClass
+    implements Insertable<StoreMetadataData> {
   final int id;
   final String name;
   final String? description;
-  final String version;
+  final double version;
   final DateTime createdAt;
   final DateTime lastModified;
   final String masterPassword;
   final DateTime? lastBackup;
-  const StoreMetaData({
+  const StoreMetadataData({
     required this.id,
     required this.name,
     this.description,
@@ -259,7 +260,7 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
-    map['version'] = Variable<String>(version);
+    map['version'] = Variable<double>(version);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['last_modified'] = Variable<DateTime>(lastModified);
     map['master_password'] = Variable<String>(masterPassword);
@@ -269,8 +270,8 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
     return map;
   }
 
-  StoreMetaCompanion toCompanion(bool nullToAbsent) {
-    return StoreMetaCompanion(
+  StoreMetadataCompanion toCompanion(bool nullToAbsent) {
+    return StoreMetadataCompanion(
       id: Value(id),
       name: Value(name),
       description: description == null && nullToAbsent
@@ -286,16 +287,16 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
     );
   }
 
-  factory StoreMetaData.fromJson(
+  factory StoreMetadataData.fromJson(
     Map<String, dynamic> json, {
     ValueSerializer? serializer,
   }) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return StoreMetaData(
+    return StoreMetadataData(
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       description: serializer.fromJson<String?>(json['description']),
-      version: serializer.fromJson<String>(json['version']),
+      version: serializer.fromJson<double>(json['version']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       lastModified: serializer.fromJson<DateTime>(json['lastModified']),
       masterPassword: serializer.fromJson<String>(json['masterPassword']),
@@ -309,7 +310,7 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'description': serializer.toJson<String?>(description),
-      'version': serializer.toJson<String>(version),
+      'version': serializer.toJson<double>(version),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'lastModified': serializer.toJson<DateTime>(lastModified),
       'masterPassword': serializer.toJson<String>(masterPassword),
@@ -317,16 +318,16 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
     };
   }
 
-  StoreMetaData copyWith({
+  StoreMetadataData copyWith({
     int? id,
     String? name,
     Value<String?> description = const Value.absent(),
-    String? version,
+    double? version,
     DateTime? createdAt,
     DateTime? lastModified,
     String? masterPassword,
     Value<DateTime?> lastBackup = const Value.absent(),
-  }) => StoreMetaData(
+  }) => StoreMetadataData(
     id: id ?? this.id,
     name: name ?? this.name,
     description: description.present ? description.value : this.description,
@@ -336,8 +337,8 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
     masterPassword: masterPassword ?? this.masterPassword,
     lastBackup: lastBackup.present ? lastBackup.value : this.lastBackup,
   );
-  StoreMetaData copyWithCompanion(StoreMetaCompanion data) {
-    return StoreMetaData(
+  StoreMetadataData copyWithCompanion(StoreMetadataCompanion data) {
+    return StoreMetadataData(
       id: data.id.present ? data.id.value : this.id,
       name: data.name.present ? data.name.value : this.name,
       description: data.description.present
@@ -359,7 +360,7 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
 
   @override
   String toString() {
-    return (StringBuffer('StoreMetaData(')
+    return (StringBuffer('StoreMetadataData(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
@@ -386,7 +387,7 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is StoreMetaData &&
+      (other is StoreMetadataData &&
           other.id == this.id &&
           other.name == this.name &&
           other.description == this.description &&
@@ -397,16 +398,16 @@ class StoreMetaData extends DataClass implements Insertable<StoreMetaData> {
           other.lastBackup == this.lastBackup);
 }
 
-class StoreMetaCompanion extends UpdateCompanion<StoreMetaData> {
+class StoreMetadataCompanion extends UpdateCompanion<StoreMetadataData> {
   final Value<int> id;
   final Value<String> name;
   final Value<String?> description;
-  final Value<String> version;
+  final Value<double> version;
   final Value<DateTime> createdAt;
   final Value<DateTime> lastModified;
   final Value<String> masterPassword;
   final Value<DateTime?> lastBackup;
-  const StoreMetaCompanion({
+  const StoreMetadataCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
@@ -416,7 +417,7 @@ class StoreMetaCompanion extends UpdateCompanion<StoreMetaData> {
     this.masterPassword = const Value.absent(),
     this.lastBackup = const Value.absent(),
   });
-  StoreMetaCompanion.insert({
+  StoreMetadataCompanion.insert({
     this.id = const Value.absent(),
     required String name,
     this.description = const Value.absent(),
@@ -427,11 +428,11 @@ class StoreMetaCompanion extends UpdateCompanion<StoreMetaData> {
     this.lastBackup = const Value.absent(),
   }) : name = Value(name),
        masterPassword = Value(masterPassword);
-  static Insertable<StoreMetaData> custom({
+  static Insertable<StoreMetadataData> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? description,
-    Expression<String>? version,
+    Expression<double>? version,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? lastModified,
     Expression<String>? masterPassword,
@@ -449,17 +450,17 @@ class StoreMetaCompanion extends UpdateCompanion<StoreMetaData> {
     });
   }
 
-  StoreMetaCompanion copyWith({
+  StoreMetadataCompanion copyWith({
     Value<int>? id,
     Value<String>? name,
     Value<String?>? description,
-    Value<String>? version,
+    Value<double>? version,
     Value<DateTime>? createdAt,
     Value<DateTime>? lastModified,
     Value<String>? masterPassword,
     Value<DateTime?>? lastBackup,
   }) {
-    return StoreMetaCompanion(
+    return StoreMetadataCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
@@ -484,7 +485,7 @@ class StoreMetaCompanion extends UpdateCompanion<StoreMetaData> {
       map['description'] = Variable<String>(description.value);
     }
     if (version.present) {
-      map['version'] = Variable<String>(version.value);
+      map['version'] = Variable<double>(version.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -503,7 +504,7 @@ class StoreMetaCompanion extends UpdateCompanion<StoreMetaData> {
 
   @override
   String toString() {
-    return (StringBuffer('StoreMetaCompanion(')
+    return (StringBuffer('StoreMetadataCompanion(')
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('description: $description, ')
@@ -521,40 +522,40 @@ abstract class _$AppEncryptedDatabase extends GeneratedDatabase {
   _$AppEncryptedDatabase(QueryExecutor e) : super(e);
   $AppEncryptedDatabaseManager get managers =>
       $AppEncryptedDatabaseManager(this);
-  late final $StoreMetaTable storeMeta = $StoreMetaTable(this);
+  late final $StoreMetadataTable storeMetadata = $StoreMetadataTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [storeMeta];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [storeMetadata];
 }
 
-typedef $$StoreMetaTableCreateCompanionBuilder =
-    StoreMetaCompanion Function({
+typedef $$StoreMetadataTableCreateCompanionBuilder =
+    StoreMetadataCompanion Function({
       Value<int> id,
       required String name,
       Value<String?> description,
-      Value<String> version,
+      Value<double> version,
       Value<DateTime> createdAt,
       Value<DateTime> lastModified,
       required String masterPassword,
       Value<DateTime?> lastBackup,
     });
-typedef $$StoreMetaTableUpdateCompanionBuilder =
-    StoreMetaCompanion Function({
+typedef $$StoreMetadataTableUpdateCompanionBuilder =
+    StoreMetadataCompanion Function({
       Value<int> id,
       Value<String> name,
       Value<String?> description,
-      Value<String> version,
+      Value<double> version,
       Value<DateTime> createdAt,
       Value<DateTime> lastModified,
       Value<String> masterPassword,
       Value<DateTime?> lastBackup,
     });
 
-class $$StoreMetaTableFilterComposer
-    extends Composer<_$AppEncryptedDatabase, $StoreMetaTable> {
-  $$StoreMetaTableFilterComposer({
+class $$StoreMetadataTableFilterComposer
+    extends Composer<_$AppEncryptedDatabase, $StoreMetadataTable> {
+  $$StoreMetadataTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -576,7 +577,7 @@ class $$StoreMetaTableFilterComposer
     builder: (column) => ColumnFilters(column),
   );
 
-  ColumnFilters<String> get version => $composableBuilder(
+  ColumnFilters<double> get version => $composableBuilder(
     column: $table.version,
     builder: (column) => ColumnFilters(column),
   );
@@ -602,9 +603,9 @@ class $$StoreMetaTableFilterComposer
   );
 }
 
-class $$StoreMetaTableOrderingComposer
-    extends Composer<_$AppEncryptedDatabase, $StoreMetaTable> {
-  $$StoreMetaTableOrderingComposer({
+class $$StoreMetadataTableOrderingComposer
+    extends Composer<_$AppEncryptedDatabase, $StoreMetadataTable> {
+  $$StoreMetadataTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -626,7 +627,7 @@ class $$StoreMetaTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
-  ColumnOrderings<String> get version => $composableBuilder(
+  ColumnOrderings<double> get version => $composableBuilder(
     column: $table.version,
     builder: (column) => ColumnOrderings(column),
   );
@@ -652,9 +653,9 @@ class $$StoreMetaTableOrderingComposer
   );
 }
 
-class $$StoreMetaTableAnnotationComposer
-    extends Composer<_$AppEncryptedDatabase, $StoreMetaTable> {
-  $$StoreMetaTableAnnotationComposer({
+class $$StoreMetadataTableAnnotationComposer
+    extends Composer<_$AppEncryptedDatabase, $StoreMetadataTable> {
+  $$StoreMetadataTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -672,7 +673,7 @@ class $$StoreMetaTableAnnotationComposer
     builder: (column) => column,
   );
 
-  GeneratedColumn<String> get version =>
+  GeneratedColumn<double> get version =>
       $composableBuilder(column: $table.version, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
@@ -694,50 +695,52 @@ class $$StoreMetaTableAnnotationComposer
   );
 }
 
-class $$StoreMetaTableTableManager
+class $$StoreMetadataTableTableManager
     extends
         RootTableManager<
           _$AppEncryptedDatabase,
-          $StoreMetaTable,
-          StoreMetaData,
-          $$StoreMetaTableFilterComposer,
-          $$StoreMetaTableOrderingComposer,
-          $$StoreMetaTableAnnotationComposer,
-          $$StoreMetaTableCreateCompanionBuilder,
-          $$StoreMetaTableUpdateCompanionBuilder,
+          $StoreMetadataTable,
+          StoreMetadataData,
+          $$StoreMetadataTableFilterComposer,
+          $$StoreMetadataTableOrderingComposer,
+          $$StoreMetadataTableAnnotationComposer,
+          $$StoreMetadataTableCreateCompanionBuilder,
+          $$StoreMetadataTableUpdateCompanionBuilder,
           (
-            StoreMetaData,
+            StoreMetadataData,
             BaseReferences<
               _$AppEncryptedDatabase,
-              $StoreMetaTable,
-              StoreMetaData
+              $StoreMetadataTable,
+              StoreMetadataData
             >,
           ),
-          StoreMetaData,
+          StoreMetadataData,
           PrefetchHooks Function()
         > {
-  $$StoreMetaTableTableManager(_$AppEncryptedDatabase db, $StoreMetaTable table)
-    : super(
+  $$StoreMetadataTableTableManager(
+    _$AppEncryptedDatabase db,
+    $StoreMetadataTable table,
+  ) : super(
         TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$StoreMetaTableFilterComposer($db: db, $table: table),
+              $$StoreMetadataTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$StoreMetaTableOrderingComposer($db: db, $table: table),
+              $$StoreMetadataTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$StoreMetaTableAnnotationComposer($db: db, $table: table),
+              $$StoreMetadataTableAnnotationComposer($db: db, $table: table),
           updateCompanionCallback:
               ({
                 Value<int> id = const Value.absent(),
                 Value<String> name = const Value.absent(),
                 Value<String?> description = const Value.absent(),
-                Value<String> version = const Value.absent(),
+                Value<double> version = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> lastModified = const Value.absent(),
                 Value<String> masterPassword = const Value.absent(),
                 Value<DateTime?> lastBackup = const Value.absent(),
-              }) => StoreMetaCompanion(
+              }) => StoreMetadataCompanion(
                 id: id,
                 name: name,
                 description: description,
@@ -752,12 +755,12 @@ class $$StoreMetaTableTableManager
                 Value<int> id = const Value.absent(),
                 required String name,
                 Value<String?> description = const Value.absent(),
-                Value<String> version = const Value.absent(),
+                Value<double> version = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> lastModified = const Value.absent(),
                 required String masterPassword,
                 Value<DateTime?> lastBackup = const Value.absent(),
-              }) => StoreMetaCompanion.insert(
+              }) => StoreMetadataCompanion.insert(
                 id: id,
                 name: name,
                 description: description,
@@ -775,27 +778,31 @@ class $$StoreMetaTableTableManager
       );
 }
 
-typedef $$StoreMetaTableProcessedTableManager =
+typedef $$StoreMetadataTableProcessedTableManager =
     ProcessedTableManager<
       _$AppEncryptedDatabase,
-      $StoreMetaTable,
-      StoreMetaData,
-      $$StoreMetaTableFilterComposer,
-      $$StoreMetaTableOrderingComposer,
-      $$StoreMetaTableAnnotationComposer,
-      $$StoreMetaTableCreateCompanionBuilder,
-      $$StoreMetaTableUpdateCompanionBuilder,
+      $StoreMetadataTable,
+      StoreMetadataData,
+      $$StoreMetadataTableFilterComposer,
+      $$StoreMetadataTableOrderingComposer,
+      $$StoreMetadataTableAnnotationComposer,
+      $$StoreMetadataTableCreateCompanionBuilder,
+      $$StoreMetadataTableUpdateCompanionBuilder,
       (
-        StoreMetaData,
-        BaseReferences<_$AppEncryptedDatabase, $StoreMetaTable, StoreMetaData>,
+        StoreMetadataData,
+        BaseReferences<
+          _$AppEncryptedDatabase,
+          $StoreMetadataTable,
+          StoreMetadataData
+        >,
       ),
-      StoreMetaData,
+      StoreMetadataData,
       PrefetchHooks Function()
     >;
 
 class $AppEncryptedDatabaseManager {
   final _$AppEncryptedDatabase _db;
   $AppEncryptedDatabaseManager(this._db);
-  $$StoreMetaTableTableManager get storeMeta =>
-      $$StoreMetaTableTableManager(_db, _db.storeMeta);
+  $$StoreMetadataTableTableManager get storeMetadata =>
+      $$StoreMetadataTableTableManager(_db, _db.storeMetadata);
 }
