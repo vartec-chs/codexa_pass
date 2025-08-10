@@ -43,31 +43,46 @@ class ActionButtonsSection extends StatelessWidget {
 
   Widget _buildMobileLayout() {
     return Builder(
-      builder: (context) => Row(
+      builder: (context) => Column(
         children: [
-          Expanded(
-            child: AnimatedAppearance(
-              delay: const Duration(milliseconds: 200),
-              child: _ActionButton(
-                icon: Icons.add_circle_outline,
-                title: 'Создать хранилище',
-                subtitle: 'Новая база данных',
-                color: Theme.of(context).colorScheme.primary,
-                onTap: () => homeActions.createNewDatabase(context),
+          Row(
+            children: [
+              Expanded(
+                child: AnimatedAppearance(
+                  delay: const Duration(milliseconds: 200),
+                  child: _ActionButton(
+                    icon: Icons.add_circle_outline,
+                    title: 'Создать хранилище',
+                    subtitle: 'Новая база данных',
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () => homeActions.createNewDatabase(context),
+                  ),
+                ),
               ),
-            ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: AnimatedAppearance(
+                  delay: const Duration(milliseconds: 300),
+                  child: _ActionButton(
+                    icon: Icons.folder_open_outlined,
+                    title: 'Открыть',
+                    subtitle: 'Существующая база',
+                    color: Theme.of(context).colorScheme.secondary,
+                    onTap: () => homeActions.openExistingDatabase(context),
+                  ),
+                ),
+              ),
+            ],
           ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: AnimatedAppearance(
-              delay: const Duration(milliseconds: 300),
-              child: _ActionButton(
-                icon: Icons.folder_open_outlined,
-                title: 'Открыть',
-                subtitle: 'Существующая база',
-                color: Theme.of(context).colorScheme.secondary,
-                onTap: () => homeActions.openExistingDatabase(context),
-              ),
+          const SizedBox(height: 16),
+          AnimatedAppearance(
+            delay: const Duration(milliseconds: 400),
+            child: _ActionButton(
+              icon: Icons.swipe_outlined,
+              title: 'SwipeButton Demo',
+              subtitle: 'Демонстрация компонента',
+              color: Theme.of(context).colorScheme.tertiary,
+              onTap: () => homeActions.showSwipeButtonDemo(context),
             ),
           ),
         ],
@@ -106,10 +121,20 @@ class ActionButtonsSection extends StatelessWidget {
               ),
             ),
           ),
-          const Expanded(
-            flex: 1,
-            child: SizedBox(),
-          ), // Пустое пространство для баланса
+          const SizedBox(width: 24),
+          Expanded(
+            flex: 2,
+            child: AnimatedAppearance(
+              delay: const Duration(milliseconds: 400),
+              child: _ActionButton(
+                icon: Icons.swipe_outlined,
+                title: 'SwipeButton Demo',
+                subtitle: 'Демонстрация компонента',
+                color: Theme.of(context).colorScheme.tertiary,
+                onTap: () => homeActions.showSwipeButtonDemo(context),
+              ),
+            ),
+          ),
         ],
       ),
     );

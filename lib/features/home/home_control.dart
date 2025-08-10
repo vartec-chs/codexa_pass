@@ -1,8 +1,10 @@
 import 'package:codexa_pass/app/routing/routes_path.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'widgets/recent_databases_section.dart';
+import '../../demo/swipe_button_demo.dart';
 
 // Провайдер для недавних баз данных
 final recentDatabasesProvider =
@@ -70,6 +72,12 @@ class HomeActions {
 
   Future<void> openExistingDatabase(BuildContext context) async {
     context.go(AppRoutes.openStore);
+  }
+
+  Future<void> showSwipeButtonDemo(BuildContext context) async {
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const SwipeButtonDemo()));
   }
 
   Future<void> openRecentDatabase(RecentDatabase database) async {
