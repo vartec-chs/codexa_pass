@@ -58,29 +58,31 @@ class _SetupScreenState extends ConsumerState<SetupScreen>
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Column(
-          children: [
-            // Заголовок с прогрессом - фиксированный
-            _buildHeader(setupState),
-
-            // Основной контент с прокруткой
-            Expanded(
-              child: Column(
-                children: [
-                  // Индикатор страниц - фиксированный
-                  _buildPageIndicator(setupState),
-
-                  // Контент страниц с прокруткой
-                  Expanded(child: _buildScrollablePageView(setupState)),
-                ],
+      body: SafeArea(
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Column(
+            children: [
+              // Заголовок с прогрессом - фиксированный
+              _buildHeader(setupState),
+        
+              // Основной контент с прокруткой
+              Expanded(
+                child: Column(
+                  children: [
+                    // Индикатор страниц - фиксированный
+                    _buildPageIndicator(setupState),
+        
+                    // Контент страниц с прокруткой
+                    Expanded(child: _buildScrollablePageView(setupState)),
+                  ],
+                ),
               ),
-            ),
-
-            // Навигационные кнопки - фиксированные
-            _buildNavigation(),
-          ],
+        
+              // Навигационные кнопки - фиксированные
+              _buildNavigation(),
+            ],
+          ),
         ),
       ),
     );

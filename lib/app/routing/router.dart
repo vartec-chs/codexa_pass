@@ -1,5 +1,4 @@
 import 'package:codexa_pass/app/routing/routes_path.dart';
-import 'package:codexa_pass/app/utils/unified_notifications/examples/unified_notification_demo.dart';
 import 'package:codexa_pass/features/home/home.dart';
 import 'package:codexa_pass/features/setup/setup.dart';
 import 'package:codexa_pass/features/store/create_store/create_store.dart';

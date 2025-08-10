@@ -63,42 +63,44 @@ class _CreateStoreState extends ConsumerState<CreateStore> {
             icon: const Icon(Icons.arrow_back),
           ),
         ),
-        body: Column(
-          children: [
-            // Основной контент
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Заголовок и описание
-                    _buildHeader(theme),
+        body: SafeArea(
+          child: Column(
+            children: [
+              // Основной контент
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Заголовок и описание
+                      _buildHeader(theme),
 
-                    const SizedBox(height: 32),
+                      const SizedBox(height: 32),
 
-                    // Информация о хранилище
-                    const StoreInfoWidget(),
+                      // Информация о хранилище
+                      const StoreInfoWidget(),
 
-                    const SizedBox(height: 32),
+                      const SizedBox(height: 32),
 
-                    // Выбор директории
-                    const DirectorySelectionWidget(),
+                      // Выбор директории
+                      const DirectorySelectionWidget(),
 
-                    const SizedBox(height: 32),
+                      const SizedBox(height: 32),
 
-                    // Мастер-пароль
-                    const MasterPasswordWidget(),
+                      // Мастер-пароль
+                      const MasterPasswordWidget(),
 
-                    const SizedBox(height: 100), // Отступ для кнопки
-                  ],
+                      const SizedBox(height: 100), // Отступ для кнопки
+                    ],
+                  ),
                 ),
               ),
-            ),
 
-            // Кнопка действия (прибита к низу)
-            const CreateStoreActionButton(),
-          ],
+              // Кнопка действия (прибита к низу)
+              const CreateStoreActionButton(),
+            ],
+          ),
         ),
       ),
     );

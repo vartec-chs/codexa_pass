@@ -394,7 +394,7 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
                     ),
                   ),
                 )
-                .toList(),
+                ,
 
             // Сообщение о том, что все требования выполнены
             if (requirements.every((req) => req['isValid'] as bool) &&

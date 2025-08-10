@@ -71,82 +71,84 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     final maxWidth = ResponsiveUtils.getMaxContentWidth(context);
 
     return Scaffold(
-      body: FadeTransition(
-        opacity: _fadeAnimation,
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: maxWidth),
-            child: CustomScrollView(
-              controller: _scrollController,
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                // Анимированная закрепленная шапка
-                AnimatedSliverAppBar(
-                  scrollController: _scrollController,
-                  isDesktop: isDesktop,
-                ),
-
-                // Основной контент с анимациями и легким параллакс эффектом
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    top: 16.0,
-                    left: ResponsiveUtils.adaptivePadding(context).left,
-                    right: ResponsiveUtils.adaptivePadding(context).right,
+      body: SafeArea(
+        child: FadeTransition(
+          opacity: _fadeAnimation,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: maxWidth),
+              child: CustomScrollView(
+                controller: _scrollController,
+                physics: const BouncingScrollPhysics(),
+                slivers: [
+                  // Анимированная закрепленная шапка
+                  AnimatedSliverAppBar(
+                    scrollController: _scrollController,
+                    isDesktop: isDesktop,
                   ),
-                  sliver: SliverToBoxAdapter(
+
+                  // Основной контент с анимациями и легким параллакс эффектом
+                  SliverPadding(
+                    padding: EdgeInsets.only(
+                      top: 16.0,
+                      left: ResponsiveUtils.adaptivePadding(context).left,
+                      right: ResponsiveUtils.adaptivePadding(context).right,
+                    ),
+                    sliver: SliverToBoxAdapter(
+                      child: Transform.translate(
+                        offset: Offset(
+                          0,
+                          (_scrollOffset * 0.05).clamp(-20.0, 20.0),
+                        ),
+                        child: AnimatedAppearance(
+                          delay: const Duration(milliseconds: 200),
+                          child: ActionButtonsSection(homeActions: homeActions),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Отступ после кнопок действий
+                  SliverPadding(
+                    padding: EdgeInsets.only(
+                      bottom: ResponsiveUtils.responsive(
+                        context,
+                        mobile: 32.0,
+                        tablet: 40.0,
+                        desktop: 48.0,
+                      ),
+                    ),
+                  ),
+
+                  // Секция с недавними базами данных с анимацией и легким параллакс эффектом
+                  SliverToBoxAdapter(
                     child: Transform.translate(
                       offset: Offset(
                         0,
-                        (_scrollOffset * 0.05).clamp(-20.0, 20.0),
+                        (_scrollOffset * 0.02).clamp(-10.0, 10.0),
                       ),
                       child: AnimatedAppearance(
-                        delay: const Duration(milliseconds: 200),
-                        child: ActionButtonsSection(homeActions: homeActions),
+                        delay: const Duration(milliseconds: 400),
+                        child: const SizedBox.shrink(),
                       ),
                     ),
                   ),
-                ),
 
-                // Отступ после кнопок действий
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    bottom: ResponsiveUtils.responsive(
-                      context,
-                      mobile: 32.0,
-                      tablet: 40.0,
-                      desktop: 48.0,
+                  RecentDatabasesSection(homeActions: homeActions),
+
+                  // Адаптивный отступ внизу для комфортной прокрутки
+                  SliverPadding(
+                    padding: EdgeInsets.only(
+                      bottom: ResponsiveUtils.responsive(
+                        context,
+                        mobile: 100.0,
+                        tablet: 120.0,
+                        desktop: 150.0,
+                      ),
                     ),
                   ),
-                ),
-
-                // Секция с недавними базами данных с анимацией и легким параллакс эффектом
-                SliverToBoxAdapter(
-                  child: Transform.translate(
-                    offset: Offset(
-                      0,
-                      (_scrollOffset * 0.02).clamp(-10.0, 10.0),
-                    ),
-                    child: AnimatedAppearance(
-                      delay: const Duration(milliseconds: 400),
-                      child: const SizedBox.shrink(),
-                    ),
-                  ),
-                ),
-
-                RecentDatabasesSection(homeActions: homeActions),
-
-                // Адаптивный отступ внизу для комфортной прокрутки
-                SliverPadding(
-                  padding: EdgeInsets.only(
-                    bottom: ResponsiveUtils.responsive(
-                      context,
-                      mobile: 100.0,
-                      tablet: 120.0,
-                      desktop: 150.0,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

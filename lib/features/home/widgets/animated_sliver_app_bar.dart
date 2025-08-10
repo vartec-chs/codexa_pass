@@ -132,7 +132,7 @@ class _AnimatedSliverAppBarState extends State<AnimatedSliverAppBar>
         final availableHeight = constraints.maxHeight;
         final isSmallHeight = availableHeight < 120;
 
-        return Container(
+        return SizedBox(
           height: availableHeight,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

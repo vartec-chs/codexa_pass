@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../unified_notification.dart';
-import '../notification_extensions.dart';
 
 /// Демонстрационное приложение для унифицированной системы уведомлений
 class UnifiedNotificationDemo extends StatefulWidget {

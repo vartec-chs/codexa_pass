@@ -355,7 +355,7 @@ class _MasterPasswordWidgetState extends ConsumerState<MasterPasswordWidget>
                     ),
                   ),
                 )
-                .toList(),
+                ,
           ],
         ),
       ),
