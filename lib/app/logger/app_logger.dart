@@ -124,6 +124,25 @@ class AppLogger {
     }
   }
 
+  // info with secret data and masked data
+  void infoWithSecretData(
+    String message, {
+    String? tag,
+    Map<String, dynamic>? data,
+  }) {
+    if (AppConstants.logSensitiveData) {
+      _log(LogLevel.info, message, tag: tag, additionalData: data);
+    } else {
+      final maskedData = data?.map((key, value) {
+        if (key == 'secret') {
+          return MapEntry(key, '***masked***');
+        }
+        return MapEntry(key, value);
+      });
+      _log(LogLevel.info, message, tag: tag, additionalData: maskedData);
+    }
+  }
+
   void info(String message, {String? tag, Map<String, dynamic>? data}) {
     _log(LogLevel.info, message, tag: tag, additionalData: data);
   }
