@@ -85,6 +85,17 @@ class ActionButtonsSection extends StatelessWidget {
               onTap: () => homeActions.showSwipeButtonDemo(context),
             ),
           ),
+          const SizedBox(height: 16),
+          AnimatedAppearance(
+            delay: const Duration(milliseconds: 500),
+            child: _ActionButton(
+              icon: Icons.notification_important_outlined,
+              title: 'Toast Manager Demo',
+              subtitle: 'Демонстрация тостов',
+              color: Colors.deepPurple,
+              onTap: () => homeActions.showToastDemo(context),
+            ),
+          ),
         ],
       ),
     );

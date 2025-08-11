@@ -12,5 +12,8 @@
 
 import 'package:flutter/material.dart';
 
-final GlobalKey<ScaffoldMessengerState> snackbarKey =
+final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
+
+/// Глобальный ключ для навигации (для Toast Manager и других overlay виджетов)
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

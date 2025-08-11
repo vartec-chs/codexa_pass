@@ -219,7 +219,7 @@ class SnackBarManager {
 
     final snackBar = _buildSnackBar(message);
 
-    snackbarKey.currentState?.showSnackBar(snackBar).closed.then((_) {
+    scaffoldMessengerKey.currentState?.showSnackBar(snackBar).closed.then((_) {
       _isShowing = false;
       // Небольшая задержка перед показом следующего сообщения
       Timer(const Duration(milliseconds: 300), () {
@@ -384,7 +384,7 @@ class SnackBarManager {
 
   /// Скрыть текущий snackbar и обработать очередь
   void _hideCurrentAndProcessQueue() {
-    snackbarKey.currentState?.hideCurrentSnackBar();
+    scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     _isShowing = false;
     // Небольшая задержка перед показом следующего сообщения
     Timer(const Duration(milliseconds: 200), () {
@@ -394,7 +394,7 @@ class SnackBarManager {
 
   /// Скрыть текущий snackbar и немедленно показать следующий (для приоритетных сообщений)
   void _hideCurrentAndShowNext() {
-    snackbarKey.currentState?.hideCurrentSnackBar();
+    scaffoldMessengerKey.currentState?.hideCurrentSnackBar();
     _isShowing = false;
     // Минимальная задержка для приоритетных сообщений (ошибок)
     Timer(const Duration(milliseconds: 50), () {

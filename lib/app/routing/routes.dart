@@ -1,5 +1,5 @@
 import 'package:codexa_pass/app/common/widget/title_bar.dart';
-
+import 'package:codexa_pass/app/global.dart';
 import 'package:codexa_pass/app/logger/route_observer.dart';
 import 'package:codexa_pass/app/routing/routes_path.dart';
 import 'package:codexa_pass/app/utils/back.dart';
@@ -15,6 +15,7 @@ import 'package:universal_platform/universal_platform.dart';
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     initialLocation: AppRoutes.home,
+    navigatorKey: navigatorKey, // Устанавливаем глобальный navigatorKey
 
     observers: [GoTransition.observer, LoggingRouteObserver()],
     redirect: (context, state) async {

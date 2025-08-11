@@ -1,4 +1,5 @@
 import 'package:codexa_pass/app/routing/routes_path.dart';
+import 'package:codexa_pass/app/utils/toast_manager/toast_manager_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -78,6 +79,32 @@ class HomeActions {
     Navigator.of(
       context,
     ).push(MaterialPageRoute(builder: (context) => const SwipeButtonDemo()));
+  }
+
+  Future<void> showToastDemo(BuildContext context) async {
+    context.go('/toast-demo');
+  }
+
+  void testSuccessToast() {
+    ToastUtils.success(
+      'Операция выполнена успешно',
+      subtitle: 'Данные сохранены в базе',
+    );
+  }
+
+  void testErrorToast() {
+    ToastUtils.error(
+      'Произошла ошибка',
+      subtitle: 'Не удалось подключиться к серверу',
+    );
+  }
+
+  void testWarningToast() {
+    ToastUtils.warning('Внимание!', subtitle: 'Низкий уровень заряда батареи');
+  }
+
+  void testInfoToast() {
+    ToastUtils.info('Новое обновление', subtitle: 'Доступна версия 2.1.0');
   }
 
   Future<void> openRecentDatabase(RecentDatabase database) async {

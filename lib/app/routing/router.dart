@@ -1,4 +1,5 @@
 import 'package:codexa_pass/app/routing/routes_path.dart';
+import 'package:codexa_pass/app/utils/toast_manager/demo/toast_demo.dart';
 import 'package:codexa_pass/features/home/home.dart';
 import 'package:codexa_pass/features/setup/setup.dart';
 import 'package:codexa_pass/features/store/create_store/create_store.dart';
@@ -36,5 +37,9 @@ final List<RouteBase> routes = [
   GoRoute(
     path: AppRoutes.createStore,
     builder: (context, state) => const CreateStore(),
+  ),
+  GoRoute(
+    path: '/toast-demo',
+    builder: (context, state) => const ToastManagerDemo(),
   ),
 ];
