@@ -3,6 +3,9 @@ import 'package:codexa_pass/app/common/widget/messenger_demo_widget.dart';
 import 'package:codexa_pass/app/common/widget/simple_messenger_test.dart';
 import 'package:codexa_pass/app/utils/scaffold_messenger_manager/index.dart';
 import 'package:codexa_pass/app/utils/scaffold_messenger_manager/examples/app_integration_example.dart';
+import 'package:codexa_pass/app/utils/scaffold_messenger_manager/examples/modern_snack_bar_demo.dart';
+import 'package:codexa_pass/app/utils/scaffold_messenger_manager/examples/snack_bar_fix_test.dart';
+import 'package:codexa_pass/app/utils/scaffold_messenger_manager/examples/modern_banner_demo.dart';
 
 class TestDemo extends StatelessWidget {
   const TestDemo({Key? key}) : super(key: key);
@@ -109,6 +112,54 @@ class TestDemo extends StatelessWidget {
                 trailing: const Icon(Icons.arrow_forward_ios),
                 onTap: () => Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => const AppExample()),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Современные SnackBar
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.auto_awesome),
+                title: const Text('Современные SnackBar'),
+                subtitle: const Text('Анимации и современный UI'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ModernSnackBarDemo(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Тест исправлений
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.bug_report_outlined),
+                title: const Text('Тест исправлений'),
+                subtitle: const Text('Проверка видимости и расположения'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const SnackBarFixTest(),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // Современные MaterialBanner
+            Card(
+              child: ListTile(
+                leading: const Icon(Icons.campaign_outlined),
+                title: const Text('Современные MaterialBanner'),
+                subtitle: const Text('Баннеры с современным дизайном'),
+                trailing: const Icon(Icons.arrow_forward_ios),
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ModernBannerDemo(),
+                  ),
                 ),
               ),
             ),

@@ -2,6 +2,7 @@ import 'package:codexa_pass/app/global.dart';
 import 'package:flutter/material.dart';
 import 'models/snack_bar_data.dart';
 import 'models/snack_bar_type.dart';
+import 'models/snack_bar_animation_config.dart';
 import 'models/banner_data.dart';
 import 'queue/snack_bar_queue_manager.dart';
 import 'builders/snack_bar_builder.dart';
@@ -26,24 +27,29 @@ class ScaffoldMessengerManager {
 
   // Зависимости (можно заменить для тестирования)
   SnackBarQueueManager _queueManager = DefaultSnackBarQueueManager();
-  SnackBarBuilder _snackBarBuilder = DefaultSnackBarBuilder(
+  SnackBarBuilder _snackBarBuilder = ModernSnackBarBuilder(
     themeProvider: DefaultSnackBarThemeProvider(),
   );
-  BannerBuilder _bannerBuilder = DefaultBannerBuilder(
+  BannerBuilder _bannerBuilder = ModernBannerBuilder(
     themeProvider: DefaultBannerThemeProvider(),
   );
 
   bool _isProcessingQueue = false;
+  SnackBarAnimationConfig _defaultAnimationConfig =
+      const SnackBarAnimationConfig();
 
   /// Настройка зависимостей (для тестирования или кастомизации)
   void configure({
     SnackBarQueueManager? queueManager,
     SnackBarBuilder? snackBarBuilder,
     BannerBuilder? bannerBuilder,
+    SnackBarAnimationConfig? defaultAnimationConfig,
   }) {
     if (queueManager != null) _queueManager = queueManager;
     if (snackBarBuilder != null) _snackBarBuilder = snackBarBuilder;
     if (bannerBuilder != null) _bannerBuilder = bannerBuilder;
+    if (defaultAnimationConfig != null)
+      _defaultAnimationConfig = defaultAnimationConfig;
   }
 
   /// Получение текущего контекста
@@ -72,6 +78,8 @@ class ScaffoldMessengerManager {
     VoidCallback? onActionPressed,
     bool showCopyButton = true,
     VoidCallback? onCopyPressed,
+    SnackBarAnimationConfig? animationConfig,
+    bool enableBlur = false,
   }) {
     showSnackBar(
       SnackBarData(
@@ -82,6 +90,8 @@ class ScaffoldMessengerManager {
         onActionPressed: onActionPressed,
         showCopyButton: showCopyButton,
         onCopyPressed: onCopyPressed,
+        animationConfig: animationConfig ?? _defaultAnimationConfig,
+        enableBlur: enableBlur,
       ),
     );
   }
@@ -93,6 +103,8 @@ class ScaffoldMessengerManager {
     String? actionLabel,
     VoidCallback? onActionPressed,
     bool showCopyButton = false,
+    SnackBarAnimationConfig? animationConfig,
+    bool enableBlur = false,
   }) {
     showSnackBar(
       SnackBarData(
@@ -102,6 +114,8 @@ class ScaffoldMessengerManager {
         actionLabel: actionLabel,
         onActionPressed: onActionPressed,
         showCopyButton: showCopyButton,
+        animationConfig: animationConfig ?? _defaultAnimationConfig,
+        enableBlur: enableBlur,
       ),
     );
   }
@@ -112,6 +126,8 @@ class ScaffoldMessengerManager {
     Duration? duration,
     String? actionLabel,
     VoidCallback? onActionPressed,
+    SnackBarAnimationConfig? animationConfig,
+    bool enableBlur = false,
   }) {
     showSnackBar(
       SnackBarData(
@@ -120,6 +136,8 @@ class ScaffoldMessengerManager {
         duration: duration,
         actionLabel: actionLabel,
         onActionPressed: onActionPressed,
+        animationConfig: animationConfig ?? _defaultAnimationConfig,
+        enableBlur: enableBlur,
       ),
     );
   }
@@ -130,6 +148,8 @@ class ScaffoldMessengerManager {
     Duration? duration,
     String? actionLabel,
     VoidCallback? onActionPressed,
+    SnackBarAnimationConfig? animationConfig,
+    bool enableBlur = false,
   }) {
     showSnackBar(
       SnackBarData(
@@ -138,6 +158,8 @@ class ScaffoldMessengerManager {
         duration: duration,
         actionLabel: actionLabel,
         onActionPressed: onActionPressed,
+        animationConfig: animationConfig ?? _defaultAnimationConfig,
+        enableBlur: enableBlur,
       ),
     );
   }
@@ -285,4 +307,39 @@ class ScaffoldMessengerManager {
 
   /// Проверить пустая ли очередь
   bool get isQueueEmpty => _queueManager.isEmpty;
+
+  // ==================== ANIMATION CONFIGURATION ====================
+
+  /// Настроить анимации для SnackBar
+  void setDefaultAnimationConfig(SnackBarAnimationConfig config) {
+    _defaultAnimationConfig = config;
+  }
+
+  /// Получить текущую конфигурацию анимаций
+  SnackBarAnimationConfig get defaultAnimationConfig => _defaultAnimationConfig;
+
+  /// Отключить все анимации
+  void disableAnimations() {
+    _defaultAnimationConfig = SnackBarAnimationConfig.disabled;
+  }
+
+  /// Включить анимации с настройками по умолчанию
+  void enableAnimations() {
+    _defaultAnimationConfig = const SnackBarAnimationConfig();
+  }
+
+  /// Установить быстрые анимации
+  void setFastAnimations() {
+    _defaultAnimationConfig = SnackBarAnimationConfig.fast;
+  }
+
+  /// Установить медленные анимации
+  void setSlowAnimations() {
+    _defaultAnimationConfig = SnackBarAnimationConfig.slow;
+  }
+
+  /// Установить анимации с bounce эффектом
+  void setBounceAnimations() {
+    _defaultAnimationConfig = SnackBarAnimationConfig.bouncy;
+  }
 }

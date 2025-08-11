@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'snack_bar_type.dart';
+import 'snack_bar_animation_config.dart';
 
 class SnackBarData {
   final String message;
@@ -11,6 +12,12 @@ class SnackBarData {
   final bool showCloseButton;
   final bool showCopyButton;
   final VoidCallback? onCopyPressed;
+  final SnackBarAnimationConfig? animationConfig;
+  final double? elevation;
+  final EdgeInsetsGeometry? margin;
+  final BorderRadius? borderRadius;
+  final bool enableBlur;
+  final double blurRadius;
 
   const SnackBarData({
     required this.message,
@@ -22,6 +29,12 @@ class SnackBarData {
     this.showCloseButton = true,
     this.showCopyButton = false,
     this.onCopyPressed,
+    this.animationConfig,
+    this.elevation,
+    this.margin,
+    this.borderRadius,
+    this.enableBlur = false,
+    this.blurRadius = 10.0,
   });
 
   SnackBarData copyWith({
@@ -34,6 +47,12 @@ class SnackBarData {
     bool? showCloseButton,
     bool? showCopyButton,
     VoidCallback? onCopyPressed,
+    SnackBarAnimationConfig? animationConfig,
+    double? elevation,
+    EdgeInsetsGeometry? margin,
+    BorderRadius? borderRadius,
+    bool? enableBlur,
+    double? blurRadius,
   }) {
     return SnackBarData(
       message: message ?? this.message,
@@ -45,6 +64,12 @@ class SnackBarData {
       showCloseButton: showCloseButton ?? this.showCloseButton,
       showCopyButton: showCopyButton ?? this.showCopyButton,
       onCopyPressed: onCopyPressed ?? this.onCopyPressed,
+      animationConfig: animationConfig ?? this.animationConfig,
+      elevation: elevation ?? this.elevation,
+      margin: margin ?? this.margin,
+      borderRadius: borderRadius ?? this.borderRadius,
+      enableBlur: enableBlur ?? this.enableBlur,
+      blurRadius: blurRadius ?? this.blurRadius,
     );
   }
 }
