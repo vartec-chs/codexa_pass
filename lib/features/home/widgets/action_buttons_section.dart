@@ -96,6 +96,17 @@ class ActionButtonsSection extends StatelessWidget {
               onTap: () => homeActions.showToastDemo(context),
             ),
           ),
+          const SizedBox(height: 16),
+          AnimatedAppearance(
+            delay: const Duration(milliseconds: 500),
+            child: _ActionButton(
+              icon: Icons.notification_important_outlined,
+              title: 'Тесты',
+              subtitle: 'Демонстрация тестов',
+              color: Colors.deepPurple,
+              onTap: () => homeActions.showTestDemo(context),
+            ),
+          ),
         ],
       ),
     );
@@ -143,6 +154,20 @@ class ActionButtonsSection extends StatelessWidget {
                 subtitle: 'Демонстрация компонента',
                 color: Theme.of(context).colorScheme.tertiary,
                 onTap: () => homeActions.showSwipeButtonDemo(context),
+              ),
+            ),
+          ),
+          const SizedBox(width: 24),
+          Expanded(
+            flex: 2,
+            child: AnimatedAppearance(
+              delay: const Duration(milliseconds: 500),
+              child: _ActionButton(
+                icon: Icons.notification_important_outlined,
+                title: 'Тесты',
+                subtitle: 'Тесты',
+                color: Colors.deepPurple,
+                onTap: () => homeActions.showTestDemo(context),
               ),
             ),
           ),

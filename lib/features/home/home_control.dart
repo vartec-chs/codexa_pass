@@ -85,6 +85,10 @@ class HomeActions {
     context.go('/toast-demo');
   }
 
+  Future<void> showTestDemo(BuildContext context) async {
+    context.go(AppRoutes.testDemo);
+  }
+
   void testSuccessToast() {
     ToastUtils.success(
       'Операция выполнена успешно',
