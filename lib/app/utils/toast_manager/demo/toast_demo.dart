@@ -254,6 +254,31 @@ class _ToastManagerDemoState extends State<ToastManagerDemo> {
             ],
           );
         }),
+        const SizedBox(height: 12),
+        _buildDemoButton(
+          'Тост с кнопкой копирования',
+          Colors.deepPurple,
+          Icons.copy,
+          () => ToastManager.showError(
+            'Ошибка подключения',
+            subtitle:
+                'Код ошибки: 500 - Internal Server Error. Проверьте соединение с интернетом.',
+            showCopyButton: true,
+            duration: const Duration(seconds: 8),
+          ),
+        ),
+        const SizedBox(height: 12),
+        _buildDemoButton(
+          'Успех с копированием',
+          Colors.teal,
+          Icons.content_copy,
+          () => ToastManager.showSuccess(
+            'API ключ создан',
+            subtitle: 'sk-1234567890abcdef1234567890abcdef',
+            showCopyButton: true,
+            duration: const Duration(seconds: 6),
+          ),
+        ),
       ],
     );
   }

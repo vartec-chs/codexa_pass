@@ -79,6 +79,7 @@ class ToastManager {
     String title, {
     String? subtitle,
     Duration? duration,
+    bool showCopyButton = true,
   }) {
     showPending(
       ToastConfig(
@@ -91,6 +92,7 @@ class ToastManager {
         priority: 3,
         showProgressBar: true,
         showCloseButton: true,
+        showCopyButton: showCopyButton,
       ),
     );
   }
@@ -121,6 +123,7 @@ class ToastManager {
     double? width,
     bool dismissible = true,
     bool showCloseButton = true,
+    bool showCopyButton = false,
   }) {
     show(
       ToastConfig(
@@ -136,6 +139,7 @@ class ToastManager {
         width: width,
         dismissible: dismissible,
         showCloseButton: showCloseButton,
+        showCopyButton: showCopyButton,
         priority: 1,
       ),
     );
@@ -153,6 +157,7 @@ class ToastManager {
     double? width,
     bool dismissible = true,
     bool showCloseButton = true,
+    bool showCopyButton = true,
   }) {
     show(
       ToastConfig(
@@ -168,6 +173,7 @@ class ToastManager {
         width: width,
         dismissible: dismissible,
         showCloseButton: showCloseButton,
+        showCopyButton: showCopyButton,
         priority: 3, // Высокий приоритет для ошибок
       ),
     );
@@ -185,6 +191,7 @@ class ToastManager {
     double? width,
     bool dismissible = true,
     bool showCloseButton = true,
+    bool showCopyButton = false,
   }) {
     show(
       ToastConfig(
@@ -200,6 +207,7 @@ class ToastManager {
         width: width,
         dismissible: dismissible,
         showCloseButton: showCloseButton,
+        showCopyButton: showCopyButton,
         priority: 2,
       ),
     );
@@ -217,6 +225,7 @@ class ToastManager {
     double? width,
     bool dismissible = true,
     bool showCloseButton = true,
+    bool showCopyButton = false,
   }) {
     show(
       ToastConfig(
@@ -232,6 +241,7 @@ class ToastManager {
         width: width,
         dismissible: dismissible,
         showCloseButton: showCloseButton,
+        showCopyButton: showCopyButton,
         priority: 1,
       ),
     );
@@ -412,21 +422,45 @@ class ToastManager {
     final index = _getToastIndex(id);
     if (index == -1) return 0;
 
-    const toastHeight = 80.0;
-    const spacing = 8.0;
+    // Учитываем реальную высоту тостов для правильного расчета
+    double totalOffset = 0;
+
+    // Суммируем высоты всех предыдущих тостов
+    for (int i = 0; i < index; i++) {
+      final toastConfig = _activeToasts[i].config;
+      double toastHeight = 64; // Минимальная высота
+
+      // Увеличиваем высоту если есть subtitle
+      if (toastConfig.subtitle != null && toastConfig.subtitle!.isNotEmpty) {
+        toastHeight += 24; // Дополнительные строки для subtitle
+      }
+
+      // Добавляем отступ между тостами
+      totalOffset += toastHeight + 12; // 12px между тостами
+    }
 
     switch (position) {
       case ToastPosition.top:
       case ToastPosition.topLeft:
       case ToastPosition.topRight:
-        return (toastHeight + spacing) * index;
+      case ToastPosition.left:
+      case ToastPosition.right:
+        return totalOffset;
       case ToastPosition.bottom:
       case ToastPosition.bottomLeft:
       case ToastPosition.bottomRight:
-        return -(toastHeight + spacing) * (_activeToasts.length - 1 - index);
-      case ToastPosition.left:
-      case ToastPosition.right:
-        return (toastHeight + spacing) * index;
+        // Для нижних позиций инвертируем порядок
+        double bottomOffset = 0;
+        for (int i = index + 1; i < _activeToasts.length; i++) {
+          final toastConfig = _activeToasts[i].config;
+          double toastHeight = 64;
+          if (toastConfig.subtitle != null &&
+              toastConfig.subtitle!.isNotEmpty) {
+            toastHeight += 24;
+          }
+          bottomOffset += toastHeight + 12;
+        }
+        return bottomOffset;
     }
   }
 

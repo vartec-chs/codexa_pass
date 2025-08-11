@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 import 'dart:async';
 import 'toast_models.dart';
@@ -357,13 +358,17 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
                                       fontSize: 14,
                                       height: 1.3,
                                     ),
-                                    maxLines: 3,
+                                    maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ],
                             ),
                           ),
+
+                          // Copy button (если включена)
+                          if (widget.config.showCopyButton)
+                            _buildCopyButton(colors),
 
                           // Action buttons
                           if (widget.config.actions.isNotEmpty)
@@ -451,6 +456,44 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildCopyButton(ToastColors colors) {
+    return Container(
+      margin: const EdgeInsets.only(left: 8),
+      child: InkWell(
+        onTap: () => _copyToClipboard(),
+        borderRadius: BorderRadius.circular(20),
+        child: Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: colors.accentColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Icon(Icons.copy_rounded, size: 18, color: colors.accentColor),
+        ),
+      ),
+    );
+  }
+
+  void _copyToClipboard() {
+    final textToCopy = widget.config.subtitle != null
+        ? '${widget.config.title}\n${widget.config.subtitle}'
+        : widget.config.title;
+
+    Clipboard.setData(ClipboardData(text: textToCopy));
+
+    // Показываем краткое уведомление о копировании
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text('Скопировано в буфер обмена'),
+        duration: const Duration(seconds: 1),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(16),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
     );
   }

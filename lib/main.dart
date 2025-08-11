@@ -45,14 +45,14 @@ Future<void> main() async {
           subtitle: details.exceptionAsString(),
         );
 
-        SnackBarManager.showError(
-          'Произошла ошибка в приложении',
-          subtitle: details.exceptionAsString(),
-          actionLabel: 'Скопировать',
-          onAction: () {
-            Clipboard.setData(ClipboardData(text: details.exceptionAsString()));
-          },
-        );
+        // SnackBarManager.showError(
+        //   'Произошла ошибка в приложении',
+        //   subtitle: details.exceptionAsString(),
+        //   actionLabel: 'Скопировать',
+        //   onAction: () {
+        //     Clipboard.setData(ClipboardData(text: details.exceptionAsString()));
+        //   },
+        // );
       };
 
       PlatformDispatcher.instance.onError = (error, stackTrace) {
@@ -67,14 +67,14 @@ Future<void> main() async {
           subtitle: error.toString(),
         );
 
-        SnackBarManager.showError(
-          'Произошла ошибка в приложении',
-          subtitle: error.toString(),
-          actionLabel: 'Скопировать',
-          onAction: () {
-            Clipboard.setData(ClipboardData(text: error.toString()));
-          },
-        );
+        // SnackBarManager.showError(
+        //   'Произошла ошибка в приложении',
+        //   subtitle: error.toString(),
+        //   actionLabel: 'Скопировать',
+        //   onAction: () {
+        //     Clipboard.setData(ClipboardData(text: error.toString()));
+        //   },
+        // );
 
         return true;
       };
@@ -104,14 +104,14 @@ Future<void> main() async {
         subtitle: error.toString(),
       );
 
-      SnackBarManager.showError(
-        'Произошла непредвиденная ошибка',
-        subtitle: error.toString(),
-        actionLabel: 'Скопировать',
-        onAction: () {
-          Clipboard.setData(ClipboardData(text: error.toString()));
-        },
-      );
+      // SnackBarManager.showError(
+      //   'Произошла непредвиденная ошибка',
+      //   subtitle: error.toString(),
+      //   actionLabel: 'Скопировать',
+      //   onAction: () {
+      //     Clipboard.setData(ClipboardData(text: error.toString()));
+      //   },
+      // );
     },
   );
 }

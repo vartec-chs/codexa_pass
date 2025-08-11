@@ -42,6 +42,7 @@ class ToastConfig {
   final bool dismissible;
   final bool showProgressBar;
   final bool showCloseButton;
+  final bool showCopyButton;
   final List<ToastAction> actions;
   final VoidCallback? onTap;
   final VoidCallback? onDismiss;
@@ -60,6 +61,7 @@ class ToastConfig {
     this.dismissible = true,
     this.showProgressBar = true,
     this.showCloseButton = true,
+    this.showCopyButton = false,
     this.actions = const [],
     this.onTap,
     this.onDismiss,
@@ -79,6 +81,7 @@ class ToastConfig {
     bool? dismissible,
     bool? showProgressBar,
     bool? showCloseButton,
+    bool? showCopyButton,
     List<ToastAction>? actions,
     VoidCallback? onTap,
     VoidCallback? onDismiss,
@@ -97,6 +100,7 @@ class ToastConfig {
       dismissible: dismissible ?? this.dismissible,
       showProgressBar: showProgressBar ?? this.showProgressBar,
       showCloseButton: showCloseButton ?? this.showCloseButton,
+      showCopyButton: showCopyButton ?? this.showCopyButton,
       actions: actions ?? this.actions,
       onTap: onTap ?? this.onTap,
       onDismiss: onDismiss ?? this.onDismiss,
