@@ -38,6 +38,6 @@ library toast_manager;
 
 export 'toast_manager.dart';
 export 'toast_models.dart';
-export 'toast_ui.dart';
+export 'toast_ui_new.dart';
 export 'toast_utils.dart';
 export 'demo/toast_demo.dart';

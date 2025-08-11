@@ -321,6 +321,7 @@ class _ToastManagerDemoState extends State<ToastManagerDemo> {
   Widget _buildPositionTestSection() {
     return Column(
       children: [
+        // Top positions
         Row(
           children: [
             Expanded(
@@ -342,6 +343,45 @@ class _ToastManagerDemoState extends State<ToastManagerDemo> {
             const SizedBox(width: 12),
             Expanded(
               child: _buildDemoButton(
+                'Сверху слева',
+                Colors.blue[700]!,
+                Icons.north_west,
+                () => ToastManager.show(
+                  ToastConfig(
+                    id: ToastManager.generateId(),
+                    title: 'Тост сверху слева',
+                    subtitle: 'Позиция: ToastPosition.topLeft',
+                    type: ToastType.info,
+                    position: ToastPosition.topLeft,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildDemoButton(
+                'Сверху справа',
+                Colors.blue[300]!,
+                Icons.north_east,
+                () => ToastManager.show(
+                  ToastConfig(
+                    id: ToastManager.generateId(),
+                    title: 'Тост сверху справа',
+                    subtitle: 'Позиция: ToastPosition.topRight',
+                    type: ToastType.info,
+                    position: ToastPosition.topRight,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        // Bottom positions
+        Row(
+          children: [
+            Expanded(
+              child: _buildDemoButton(
                 'Снизу',
                 Colors.green,
                 Icons.vertical_align_bottom,
@@ -352,6 +392,79 @@ class _ToastManagerDemoState extends State<ToastManagerDemo> {
                     subtitle: 'Позиция: ToastPosition.bottom',
                     type: ToastType.success,
                     position: ToastPosition.bottom,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildDemoButton(
+                'Снизу слева',
+                Colors.green[700]!,
+                Icons.south_west,
+                () => ToastManager.show(
+                  ToastConfig(
+                    id: ToastManager.generateId(),
+                    title: 'Тост снизу слева',
+                    subtitle: 'Позиция: ToastPosition.bottomLeft',
+                    type: ToastType.success,
+                    position: ToastPosition.bottomLeft,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildDemoButton(
+                'Снизу справа',
+                Colors.green[300]!,
+                Icons.south_east,
+                () => ToastManager.show(
+                  ToastConfig(
+                    id: ToastManager.generateId(),
+                    title: 'Тост снизу справа',
+                    subtitle: 'Позиция: ToastPosition.bottomRight',
+                    type: ToastType.success,
+                    position: ToastPosition.bottomRight,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+        // Side positions
+        Row(
+          children: [
+            Expanded(
+              child: _buildDemoButton(
+                'Слева',
+                Colors.purple,
+                Icons.west,
+                () => ToastManager.show(
+                  ToastConfig(
+                    id: ToastManager.generateId(),
+                    title: 'Тост слева',
+                    subtitle: 'Позиция: ToastPosition.left',
+                    type: ToastType.warning,
+                    position: ToastPosition.left,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildDemoButton(
+                'Справа',
+                Colors.orange,
+                Icons.east,
+                () => ToastManager.show(
+                  ToastConfig(
+                    id: ToastManager.generateId(),
+                    title: 'Тост справа',
+                    subtitle: 'Позиция: ToastPosition.right',
+                    type: ToastType.error,
+                    position: ToastPosition.right,
                   ),
                 ),
               ),

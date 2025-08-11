@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'toast_models.dart';
-import 'toast_widget.dart';
+import 'toast_ui_new.dart';
 
 /// Главный класс для управления тостами
 class ToastManager {
@@ -16,6 +16,12 @@ class ToastManager {
   /// Список активных тостов (максимум 3)
   final List<_ActiveToast> _activeToasts = [];
 
+  /// Очередь отложенных тостов (до инициализации)
+  static final Queue<ToastConfig> _pendingToasts = Queue<ToastConfig>();
+
+  /// Флаг инициализации
+  static bool _isInitialized = false;
+
   /// Максимальное количество одновременно отображаемых тостов
   static const int maxActiveToasts = 3;
 
@@ -28,9 +34,77 @@ class ToastManager {
   /// Навигационный ключ для получения контекста
   GlobalKey<NavigatorState>? _navigatorKey;
 
+  /// Статический OverlayState для прямого доступа
+  static OverlayState? _overlayState;
+
   /// Инициализация с навигационным ключом
   static void initialize(GlobalKey<NavigatorState> navigatorKey) {
+    print('Toast Manager: Initializing with navigatorKey');
     instance._navigatorKey = navigatorKey;
+    _isInitialized = true;
+
+    // Пытаемся сразу получить OverlayState
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      print('Toast Manager: Post frame callback - updating overlay state');
+      _updateOverlayState();
+      
+      // Обрабатываем отложенные тосты
+      _processPendingToasts();
+    });
+  }
+
+  /// Обрабатываем отложенные тосты после инициализации
+  static void _processPendingToasts() {
+    print('Toast Manager: Processing ${_pendingToasts.length} pending toasts');
+    while (_pendingToasts.isNotEmpty) {
+      final config = _pendingToasts.removeFirst();
+      instance._addToQueue(config);
+    }
+  }
+
+  /// Показать отложенный тост (до инициализации MaterialApp)
+  static void showPending(ToastConfig config) {
+    if (_isInitialized) {
+      // Если уже инициализированы, показываем сразу
+      show(config);
+    } else {
+      // Иначе добавляем в очередь отложенных
+      _pendingToasts.add(config);
+      print('Toast Manager: Added pending toast: ${config.title}');
+    }
+  }
+
+  /// Показать отложенный тост об ошибке (удобный метод)
+  static void showPendingError(
+    String title, {
+    String? subtitle,
+    Duration? duration,
+  }) {
+    showPending(ToastConfig(
+      id: _generateId(),
+      title: title,
+      subtitle: subtitle,
+      type: ToastType.error,
+      position: ToastPosition.top,
+      duration: duration ?? const Duration(seconds: 8),
+      priority: 3,
+      showProgressBar: true,
+      showCloseButton: true,
+    ));
+  }
+
+  /// Обновляем ссылку на OverlayState
+  static void _updateOverlayState() {
+    final navigatorState = instance._navigatorKey?.currentState;
+    print(
+      'Toast Manager: Navigator state: ${navigatorState != null ? "available" : "null"}',
+    );
+    if (navigatorState != null) {
+      _overlayState = navigatorState.overlay;
+      print(
+        'Toast Manager: Overlay state: ${_overlayState != null ? "available" : "null"}',
+      );
+    }
   }
 
   /// Показать тост с успехом
@@ -220,31 +294,65 @@ class ToastManager {
 
   /// Показать тост
   void _showToast(ToastConfig config) {
-    final context = _navigatorKey?.currentContext;
-    if (context == null) return;
+    // Обновляем OverlayState перед показом
+    _updateOverlayState();
 
-    final overlay = Overlay.of(context);
-    final overlayEntry = OverlayEntry(
-      builder: (context) => ToastWidget(
+    // Попробуем использовать статический OverlayState
+    if (_overlayState != null) {
+      try {
+        final overlayEntry = OverlayEntry(
+          builder: (context) => ToastUI(config: config),
+        );
+
+        // Создаем активный тост с управлением временем
+        final activeToast = _ActiveToast(
+          config: config,
+          overlayEntry: overlayEntry,
+          startTime: DateTime.now(),
+        );
+
+        _activeToasts.add(activeToast);
+        _overlayState!.insert(overlayEntry);
+
+        // Автоматическое скрытие через заданное время (управляется в UI)
+        // Timer будет управляться самим ToastUI компонентом
+        return;
+      } catch (e) {
+        print('Toast Manager: Error with static OverlayState: $e');
+      }
+    }
+
+    // Fallback: используем NavigatorState
+    final navigatorState = _navigatorKey?.currentState;
+    if (navigatorState == null) {
+      print('Toast Manager: NavigatorState is null');
+      return;
+    }
+
+    try {
+      // Получаем OverlayState напрямую из NavigatorState
+      final overlayState = navigatorState.overlay;
+      if (overlayState == null) {
+        print('Toast Manager: OverlayState from Navigator is null');
+        return;
+      }
+
+      final overlayEntry = OverlayEntry(
+        builder: (context) => ToastUI(config: config),
+      );
+
+      // Создаем активный тост
+      final activeToast = _ActiveToast(
         config: config,
-        onDismiss: () => _dismissToast(config.id),
-      ),
-    );
+        overlayEntry: overlayEntry,
+        startTime: DateTime.now(),
+      );
 
-    // Создаем активный тост
-    final activeToast = _ActiveToast(
-      config: config,
-      overlayEntry: overlayEntry,
-      startTime: DateTime.now(),
-    );
-
-    _activeToasts.add(activeToast);
-    overlay.insert(overlayEntry);
-
-    // Автоматическое скрытие через заданное время
-    Timer(config.duration, () {
-      _dismissToast(config.id);
-    });
+      _activeToasts.add(activeToast);
+      overlayState.insert(overlayEntry);
+    } catch (e) {
+      print('Toast Manager: Error showing toast: $e');
+    }
   }
 
   /// Скрыть тост по ID
@@ -305,10 +413,18 @@ class ToastManager {
     const toastHeight = 80.0;
     const spacing = 8.0;
 
-    if (position == ToastPosition.top) {
-      return (toastHeight + spacing) * index;
-    } else {
-      return -(toastHeight + spacing) * (_activeToasts.length - 1 - index);
+    switch (position) {
+      case ToastPosition.top:
+      case ToastPosition.topLeft:
+      case ToastPosition.topRight:
+        return (toastHeight + spacing) * index;
+      case ToastPosition.bottom:
+      case ToastPosition.bottomLeft:
+      case ToastPosition.bottomRight:
+        return -(toastHeight + spacing) * (_activeToasts.length - 1 - index);
+      case ToastPosition.left:
+      case ToastPosition.right:
+        return (toastHeight + spacing) * index;
     }
   }
 

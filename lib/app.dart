@@ -7,22 +7,32 @@ import 'package:codexa_pass/app/utils/toast_manager/toast_manager_export.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class App extends ConsumerWidget {
+class App extends ConsumerStatefulWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<App> createState() => _AppState();
+}
+
+class _AppState extends ConsumerState<App> {
+  @override
+  void initState() {
+    super.initState();
+    // Инициализируем Toast Manager один раз
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ToastManager.initialize(navigatorKey);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final router = ref.watch(goRouterProvider);
     final theme = ref.watch(themeProvider);
-
-    // Инициализируем Toast Manager
-    ToastManager.initialize(navigatorKey);
 
     return MaterialApp.router(
       title: AppConstants.appName,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
-
       scaffoldMessengerKey: scaffoldMessengerKey,
 
       debugShowCheckedModeBanner: false,

@@ -4,7 +4,16 @@ import 'package:flutter/material.dart';
 enum ToastType { success, error, warning, info }
 
 /// Позиция тоста на экране
-enum ToastPosition { top, bottom }
+enum ToastPosition {
+  top,
+  bottom,
+  topLeft,
+  topRight,
+  bottomLeft,
+  bottomRight,
+  left,
+  right,
+}
 
 /// Действие для кастомной кнопки
 class ToastAction {
@@ -104,16 +113,18 @@ class ToastColors {
   final Color textColor;
   final Color iconColor;
   final Color progressColor;
-  final Color borderColor;
   final Color shadowColor;
+  final Color accentColor;
+  final Gradient? gradient;
 
   const ToastColors({
     required this.backgroundColor,
     required this.textColor,
     required this.iconColor,
     required this.progressColor,
-    required this.borderColor,
     required this.shadowColor,
+    required this.accentColor,
+    this.gradient,
   });
 
   static ToastColors forType(ToastType type, bool isDark) {
@@ -121,62 +132,82 @@ class ToastColors {
       case ToastType.success:
         return ToastColors(
           backgroundColor: isDark
-              ? const Color(0xFF1B5E20)
-              : const Color(0xFFE8F5E8),
-          textColor: isDark ? Colors.white : const Color(0xFF2E7D32),
-          iconColor: isDark ? const Color(0xFF4CAF50) : const Color(0xFF2E7D32),
-          progressColor: isDark
-              ? const Color(0xFF4CAF50)
-              : const Color(0xFF2E7D32),
-          borderColor: isDark
-              ? const Color(0xFF4CAF50)
-              : const Color(0xFFC8E6C9),
-          shadowColor: isDark ? Colors.black54 : Colors.green.withOpacity(0.2),
+              ? const Color(0xFF0F2A14)
+              : const Color(0xFFF0F9F1),
+          textColor: isDark ? const Color(0xFFE8F5E9) : const Color(0xFF1B5E20),
+          iconColor: const Color(0xFF4CAF50),
+          progressColor: const Color(0xFF66BB6A),
+          accentColor: const Color(0xFF4CAF50),
+          shadowColor: isDark
+              ? Colors.black.withOpacity(0.3)
+              : const Color(0xFF4CAF50).withOpacity(0.1),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [const Color(0xFF0F2A14), const Color(0xFF1B4D20)]
+                : [const Color(0xFFF0F9F1), const Color(0xFFE8F5E9)],
+          ),
         );
       case ToastType.error:
         return ToastColors(
           backgroundColor: isDark
-              ? const Color(0xFF8B0000)
-              : const Color(0xFFFFEBEE),
-          textColor: isDark ? Colors.white : const Color(0xFFD32F2F),
-          iconColor: isDark ? const Color(0xFFFF5252) : const Color(0xFFD32F2F),
-          progressColor: isDark
-              ? const Color(0xFFFF5252)
-              : const Color(0xFFD32F2F),
-          borderColor: isDark
-              ? const Color(0xFFFF5252)
-              : const Color(0xFFFFCDD2),
-          shadowColor: isDark ? Colors.black54 : Colors.red.withOpacity(0.2),
+              ? const Color(0xFF2C0E0E)
+              : const Color(0xFFFFF5F5),
+          textColor: isDark ? const Color(0xFFFFEBEE) : const Color(0xFFC62828),
+          iconColor: const Color(0xFFF44336),
+          progressColor: const Color(0xFFEF5350),
+          accentColor: const Color(0xFFF44336),
+          shadowColor: isDark
+              ? Colors.black.withOpacity(0.3)
+              : const Color(0xFFF44336).withOpacity(0.1),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [const Color(0xFF2C0E0E), const Color(0xFF4D1414)]
+                : [const Color(0xFFFFF5F5), const Color(0xFFFFEBEE)],
+          ),
         );
       case ToastType.warning:
         return ToastColors(
           backgroundColor: isDark
-              ? const Color(0xFF664A00)
-              : const Color(0xFFFFF8E1),
-          textColor: isDark ? Colors.white : const Color(0xFFEF6C00),
-          iconColor: isDark ? const Color(0xFFFFB74D) : const Color(0xFFEF6C00),
-          progressColor: isDark
-              ? const Color(0xFFFFB74D)
-              : const Color(0xFFEF6C00),
-          borderColor: isDark
-              ? const Color(0xFFFFB74D)
-              : const Color(0xFFFFE0B2),
-          shadowColor: isDark ? Colors.black54 : Colors.orange.withOpacity(0.2),
+              ? const Color(0xFF2D1B0E)
+              : const Color(0xFFFFFBF0),
+          textColor: isDark ? const Color(0xFFFFF3E0) : const Color(0xFFE65100),
+          iconColor: const Color(0xFFFF9800),
+          progressColor: const Color(0xFFFFB74D),
+          accentColor: const Color(0xFFFF9800),
+          shadowColor: isDark
+              ? Colors.black.withOpacity(0.3)
+              : const Color(0xFFFF9800).withOpacity(0.1),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [const Color(0xFF2D1B0E), const Color(0xFF4D2E14)]
+                : [const Color(0xFFFFFBF0), const Color(0xFFFFF3E0)],
+          ),
         );
       case ToastType.info:
         return ToastColors(
           backgroundColor: isDark
-              ? const Color(0xFF0D47A1)
-              : const Color(0xFFE3F2FD),
-          textColor: isDark ? Colors.white : const Color(0xFF1976D2),
-          iconColor: isDark ? const Color(0xFF42A5F5) : const Color(0xFF1976D2),
-          progressColor: isDark
-              ? const Color(0xFF42A5F5)
-              : const Color(0xFF1976D2),
-          borderColor: isDark
-              ? const Color(0xFF42A5F5)
-              : const Color(0xFFBBDEFB),
-          shadowColor: isDark ? Colors.black54 : Colors.blue.withOpacity(0.2),
+              ? const Color(0xFF0E1621)
+              : const Color(0xFFF3F8FF),
+          textColor: isDark ? const Color(0xFFE3F2FD) : const Color(0xFF1565C0),
+          iconColor: const Color(0xFF2196F3),
+          progressColor: const Color(0xFF42A5F5),
+          accentColor: const Color(0xFF2196F3),
+          shadowColor: isDark
+              ? Colors.black.withOpacity(0.3)
+              : const Color(0xFF2196F3).withOpacity(0.1),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: isDark
+                ? [const Color(0xFF0E1621), const Color(0xFF142A4D)]
+                : [const Color(0xFFF3F8FF), const Color(0xFFE3F2FD)],
+          ),
         );
     }
   }
@@ -187,13 +218,27 @@ class ToastIcons {
   static IconData getIcon(ToastType type) {
     switch (type) {
       case ToastType.success:
-        return Icons.check_circle;
+        return Icons.check_circle_rounded;
       case ToastType.error:
-        return Icons.error;
+        return Icons.error_rounded;
       case ToastType.warning:
-        return Icons.warning;
+        return Icons.warning_rounded;
       case ToastType.info:
-        return Icons.info;
+        return Icons.info_rounded;
+    }
+  }
+
+  /// Дополнительные анимированные иконки
+  static IconData getAnimatedIcon(ToastType type) {
+    switch (type) {
+      case ToastType.success:
+        return Icons.celebration_rounded;
+      case ToastType.error:
+        return Icons.dangerous_rounded;
+      case ToastType.warning:
+        return Icons.priority_high_rounded;
+      case ToastType.info:
+        return Icons.lightbulb_rounded;
     }
   }
 }
