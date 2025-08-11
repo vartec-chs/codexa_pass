@@ -6,12 +6,12 @@ import 'package:codexa_pass/app/logger/app_logger.dart';
 import 'package:codexa_pass/app/logger/models.dart';
 import 'package:codexa_pass/app/logger/riverpod_observer.dart';
 import 'package:codexa_pass/app/utils/snack_bar_message.dart';
+import 'package:codexa_pass/app/utils/toast_manager/toast_manager.dart';
 import 'package:codexa_pass/app/window_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 
 import 'package:flutter/foundation.dart';
 
@@ -38,6 +38,13 @@ Future<void> main() async {
           'Flutter error: ${details.exceptionAsString()}',
           stackTrace: details.stack,
         );
+
+        // Используем отложенный тост для ранних ошибок
+        ToastManager.showPendingError(
+          'Произошла ошибка в приложении',
+          subtitle: details.exceptionAsString(),
+        );
+
         SnackBarManager.showError(
           'Произошла ошибка в приложении',
           subtitle: details.exceptionAsString(),
@@ -53,6 +60,13 @@ Future<void> main() async {
           'Platform error: ${error.toString()}',
           stackTrace: stackTrace,
         );
+
+        // Используем отложенный тост для ранних ошибок
+        ToastManager.showPendingError(
+          'Произошла ошибка в приложении',
+          subtitle: error.toString(),
+        );
+
         SnackBarManager.showError(
           'Произошла ошибка в приложении',
           subtitle: error.toString(),
@@ -83,6 +97,13 @@ Future<void> main() async {
         stackTrace: stackTrace,
         tag: 'Main',
       );
+
+      // Используем отложенный тост для глобальных ошибок
+      ToastManager.showPendingError(
+        'Произошла непредвиденная ошибка',
+        subtitle: error.toString(),
+      );
+
       SnackBarManager.showError(
         'Произошла непредвиденная ошибка',
         subtitle: error.toString(),

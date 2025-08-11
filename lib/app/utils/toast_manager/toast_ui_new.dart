@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
+import 'dart:async';
 import 'toast_models.dart';
 import 'toast_manager.dart';
 
@@ -19,8 +20,7 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
   late Animation<double> _slideAnimation;
   late Animation<double> _opacityAnimation;
   late Animation<double> _scaleAnimation;
-  late Animation<double> _progressAnimation;
-  
+
   Timer? _dismissTimer;
   bool _isHovered = false;
 
@@ -64,16 +64,11 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
     _scaleAnimation = Tween<double>(begin: 0.8, end: 1).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.elasticOut),
     );
-
-    // Progress animation
-    _progressAnimation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(parent: _progressController, curve: Curves.linear),
-    );
   }
 
   void _startProgressTimer() {
     _progressController.forward();
-    
+
     _dismissTimer = Timer(widget.config.duration, () {
       if (mounted && !_isHovered) {
         _dismissToast();
@@ -83,7 +78,7 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
 
   void _pauseProgress() {
     if (_isHovered) return;
-    
+
     _isHovered = true;
     _progressController.stop();
     _dismissTimer?.cancel();
@@ -91,17 +86,18 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
 
   void _resumeProgress() {
     if (!_isHovered) return;
-    
+
     _isHovered = false;
-    
+
     // Вычисляем оставшееся время
-    final elapsed = _progressController.value * widget.config.duration.inMilliseconds;
+    final elapsed =
+        _progressController.value * widget.config.duration.inMilliseconds;
     final remaining = widget.config.duration.inMilliseconds - elapsed;
-    
+
     if (remaining > 0) {
       _progressController.duration = Duration(milliseconds: remaining.round());
       _progressController.forward();
-      
+
       _dismissTimer = Timer(Duration(milliseconds: remaining.round()), () {
         if (mounted && !_isHovered) {
           _dismissToast();
@@ -142,6 +138,8 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
   @override
   void dispose() {
     _animationController.dispose();
+    _progressController.dispose();
+    _dismissTimer?.cancel();
     super.dispose();
   }
 
@@ -158,24 +156,28 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
       bottom: _getBottom(context),
       left: _getLeft(context),
       right: _getRight(context),
-      child: AnimatedBuilder(
-        animation: _animationController,
-        builder: (context, child) {
-          return Transform.translate(
-            offset: _getTranslationOffset(),
-            child: Opacity(
-              opacity: _opacityAnimation.value,
-              child: Transform.scale(
-                scale: _scaleAnimation.value,
-                child: _buildToastContent(
-                  toastColors,
-                  Icon(icon, color: toastColors.accentColor, size: 24),
-                  theme,
+      child: MouseRegion(
+        onEnter: (_) => _pauseProgress(),
+        onExit: (_) => _resumeProgress(),
+        child: AnimatedBuilder(
+          animation: _animationController,
+          builder: (context, child) {
+            return Transform.translate(
+              offset: _getTranslationOffset(),
+              child: Opacity(
+                opacity: _opacityAnimation.value,
+                child: Transform.scale(
+                  scale: _scaleAnimation.value,
+                  child: _buildToastContent(
+                    toastColors,
+                    Icon(icon, color: toastColors.accentColor, size: 24),
+                    theme,
+                  ),
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -301,78 +303,87 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: widget.config.onTap,
-                borderRadius: BorderRadius.circular(16),
-                splashColor: colors.accentColor.withOpacity(0.2),
-                highlightColor: colors.accentColor.withOpacity(0.1),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisSize: isFullWidth
-                        ? MainAxisSize.max
-                        : MainAxisSize.min,
-                    children: [
-                      // Icon section
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: colors.accentColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: iconWidget,
-                      ),
-                      const SizedBox(width: 12),
-
-                      // Content section
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              widget.config.title,
-                              style: theme.textTheme.titleMedium?.copyWith(
-                                color: colors.textColor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+            child: Column(
+              children: [
+                // Главный контент тоста
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: widget.config.onTap,
+                    borderRadius: BorderRadius.circular(16),
+                    splashColor: colors.accentColor.withOpacity(0.2),
+                    highlightColor: colors.accentColor.withOpacity(0.1),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisSize: isFullWidth
+                            ? MainAxisSize.max
+                            : MainAxisSize.min,
+                        children: [
+                          // Icon section
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                              color: colors.accentColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                            if (widget.config.subtitle != null) ...[
-                              const SizedBox(height: 4),
-                              Text(
-                                widget.config.subtitle!,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: colors.textColor.withOpacity(0.9),
-                                  fontSize: 14,
-                                  height: 1.3,
+                            child: iconWidget,
+                          ),
+                          const SizedBox(width: 12),
+
+                          // Content section
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  widget.config.title,
+                                  style: theme.textTheme.titleMedium?.copyWith(
+                                    color: colors.textColor,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ],
-                        ),
+                                if (widget.config.subtitle != null) ...[
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    widget.config.subtitle!,
+                                    style: theme.textTheme.bodyMedium?.copyWith(
+                                      color: colors.textColor.withOpacity(0.9),
+                                      fontSize: 14,
+                                      height: 1.3,
+                                    ),
+                                    maxLines: 3,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+
+                          // Action buttons
+                          if (widget.config.actions.isNotEmpty)
+                            ...widget.config.actions.map(
+                              (action) =>
+                                  _buildActionButton(action, colors, theme),
+                            ),
+
+                          // Close button (если включен)
+                          if (widget.config.showCloseButton)
+                            _buildCloseButton(colors),
+                        ],
                       ),
-
-                      // Action buttons
-                      if (widget.config.actions.isNotEmpty)
-                        ...widget.config.actions.map(
-                          (action) => _buildActionButton(action, colors, theme),
-                        ),
-
-                      // Close button (если включен)
-                      if (widget.config.showCloseButton)
-                        _buildCloseButton(colors),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+
+                // Progress bar
+                if (widget.config.showProgressBar) _buildProgressBar(colors),
+              ],
             ),
           ),
         ),
@@ -382,6 +393,27 @@ class _ToastUIState extends State<ToastUI> with TickerProviderStateMixin {
 
   bool _isFullWidthPosition(ToastPosition position) {
     return position == ToastPosition.top || position == ToastPosition.bottom;
+  }
+
+  Widget _buildProgressBar(ToastColors colors) {
+    return Container(
+      height: 3,
+      margin: const EdgeInsets.only(top: 2),
+      child: AnimatedBuilder(
+        animation: _progressController,
+        builder: (context, child) {
+          return LinearProgressIndicator(
+            value: _progressController.value,
+            backgroundColor: colors.textColor.withOpacity(0.1),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              _isHovered
+                  ? colors.progressColor.withOpacity(0.5)
+                  : colors.progressColor,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget _buildActionButton(

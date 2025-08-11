@@ -473,6 +473,42 @@ class _ToastManagerDemoState extends State<ToastManagerDemo> {
         ),
         const SizedBox(height: 12),
         _buildDemoButton(
+          'Тест прогресс-бара',
+          Colors.indigo,
+          Icons.timer,
+          () => ToastManager.show(
+            ToastConfig(
+              id: ToastManager.generateId(),
+              title: 'Тост с прогресс-баром',
+              subtitle: 'Наведите мышь чтобы остановить таймер',
+              type: ToastType.info,
+              duration: const Duration(seconds: 10),
+              showProgressBar: true,
+              showCloseButton: true,
+            ),
+          ),
+        ),
+        const SizedBox(height: 12),
+        _buildDemoButton(
+          'Отложенный тост',
+          Colors.amber[700]!,
+          Icons.schedule,
+          () {
+            // Симулируем отложенный тост
+            ToastManager.showPending(
+              ToastConfig(
+                id: ToastManager.generateId(),
+                title: 'Отложенный тост',
+                subtitle: 'Этот тост был создан как отложенный',
+                type: ToastType.warning,
+                duration: const Duration(seconds: 6),
+                showProgressBar: true,
+              ),
+            );
+          },
+        ),
+        const SizedBox(height: 12),
+        _buildDemoButton(
           'Длинный тост без кнопки закрытия',
           Colors.deepOrange,
           Icons.timer,

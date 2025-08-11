@@ -47,7 +47,7 @@ class ToastManager {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       print('Toast Manager: Post frame callback - updating overlay state');
       _updateOverlayState();
-      
+
       // Обрабатываем отложенные тосты
       _processPendingToasts();
     });
@@ -80,17 +80,19 @@ class ToastManager {
     String? subtitle,
     Duration? duration,
   }) {
-    showPending(ToastConfig(
-      id: _generateId(),
-      title: title,
-      subtitle: subtitle,
-      type: ToastType.error,
-      position: ToastPosition.top,
-      duration: duration ?? const Duration(seconds: 8),
-      priority: 3,
-      showProgressBar: true,
-      showCloseButton: true,
-    ));
+    showPending(
+      ToastConfig(
+        id: _generateId(),
+        title: title,
+        subtitle: subtitle,
+        type: ToastType.error,
+        position: ToastPosition.top,
+        duration: duration ?? const Duration(seconds: 8),
+        priority: 3,
+        showProgressBar: true,
+        showCloseButton: true,
+      ),
+    );
   }
 
   /// Обновляем ссылку на OverlayState
